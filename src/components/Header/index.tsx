@@ -36,7 +36,6 @@ function ChevronUpIcon(props) {
 }
 
 const  Header = () =>{
-    const { status, wallet } = ethos.useWallet();
     const [scroll,setScroll]=useState(false)
     const navigation = [
         {name:"STORY", href:"#story"},
@@ -57,13 +56,13 @@ const  Header = () =>{
     };
 
     return (
-        <div className={classNames(scroll?'p-3 backdrop-blur-sm bg-black/80':"py-4","flex  fixed z-40 inset-x-0 p-2 px-5 w-full justify-between xl:px-20 transition-all duration-700 ease-in-out mx-auto items-center items-center")}>
+        <div className={classNames(scroll?'p-3 backdrop-blur-sm bg-[#2E2E2E]/80':"py-4","flex  fixed z-40 inset-x-0 p-2 px-5 w-full justify-between xl:px-20 transition-all duration-700 ease-in-out mx-auto items-center items-center")}>
             <div className={"relative z-10 items-center flex"}>
                 <Link href="src/components/Header/index" legacyBehavior>
                 <a>
                     <img
-                        className="w-12 h-12 rounded-full hidden lg:flex lg:mr-5"
-                        src="logo.svg"
+                        className="w-56 h-12 rounded-full hidden lg:flex lg:mr-5"
+                        src="/LOGO.svg"
                         alt=""
                     />
                 </a>
@@ -82,7 +81,7 @@ const  Header = () =>{
                     {({ open }) => (
                         <>
                             <Popover.Button
-                                className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-gray-900 p-2 outline-none"
+                                className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-gray-500 p-2 outline-none"
                                 aria-label="Toggle site navigation"
                             >
                                 {({ open }) =>

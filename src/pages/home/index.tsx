@@ -50,29 +50,35 @@ const Hero = () =>{
         <>
             <Loading/>
             <Pop_up_box/>
-            <div className="bg-[#D9D9D9]">
-                <Container className={"py-48"}>
-                    <div className="md:flex justify-between items-center">
-                    <div className="text-black font-black text-6xl italic text-center">
-                        <div className="mb-10">
-                            Crazy
-                        </div>
-                        Robots
-                    </div>
+            <div className="bg-black "  >
 
-                        <div className="flex justify-center mt-20 md:mt-0">
-                            {status === EthosConnectStatus.Loading ? (
-                                <div>Loading...</div>
-                            ) : status === EthosConnectStatus.NoConnection ? (
-                                <button onClick={ethos.showSignInModal}
-                                        className="bg-red-500 px-3 py-1.5 rounded-lg text-xl text-white font-semibold">Connect</button>
-                            ) : (
-                                // status is EthosConnectStatus.Connected
-                                <button onClick={mint} className="bg-red-500 px-3 py-1.5 rounded-lg text-xl text-white font-semibold">
-                                    MINT
-                                </button>
-                            )}
+                <Container className={"pt-48"}>
+                    <div className=" items-center">
+                    <div className="text-[#FFEA68] font-black text-6xl italic text-center">
+                        <div className="mb-10">
+                            Crazy Robots
                         </div>
+                    </div>
+                        <div className="flex justify-center md:justify-between py-56 bg-no-repeat  bg-center lg:bg-left-bottom"  style={{backgroundImage:"url('/群体机器人.png')"}}>
+                            <div className="hidden md:block">
+
+                            </div>
+                            <div className="flex justify-center mt-20 md:mt-0">
+                                {status === EthosConnectStatus.Loading ? (
+                                    <div>Loading...</div>
+                                ) : status === EthosConnectStatus.NoConnection ? (
+                                    <button onClick={ethos.showSignInModal}
+                                            className="bg-red-500 px-3 py-1.5 rounded-lg text-xl text-white font-semibold">Connect</button>
+                                ) : (
+                                    // status is EthosConnectStatus.Connected
+                                    <button onClick={mint} className="">
+                                        <img className="w-24 " src="mint.png" alt=""/>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+
 
 
 
@@ -88,7 +94,7 @@ const Story = () =>{
     return(
         <div id="story">
             <div className="md:flex justify-between items-center ">
-                <div className="mt-32">
+                <div className="md:mt-32">
                     <div className="text-[#FFEA68] font-semibold text-3xl">
                         The birth of crazy robots
                     </div>
@@ -265,7 +271,7 @@ const Home = () =>{
 
     return (
         <>
-            <div className="transition-all duration-700 ease-in-out">
+            <div className="">
                 <Header/>
 
                 <Hero/>

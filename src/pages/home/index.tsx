@@ -7,6 +7,7 @@ import {useAtom} from "jotai";
 import {LoadingState, SellPop_up_boxState, SellState} from "../../jotai";
 import Loading from "../../components/loading";
 import Pop_up_box from "../../components/pop_up_box";
+import Heads from "../../components/head";
 
 const Hero = () =>{
     const { wallet,status } = ethos.useWallet()
@@ -51,7 +52,6 @@ const Hero = () =>{
             <Loading/>
             <Pop_up_box/>
             <div className="bg-black "  >
-
                 <Container className={"pt-48"}>
                     <div className=" items-center">
                     <div className="text-[#FFEA68] font-black text-6xl italic text-center">
@@ -65,7 +65,7 @@ const Hero = () =>{
                             </div>
                             <div className="flex justify-center mt-20 md:mt-0">
                                 {status === EthosConnectStatus.Loading ? (
-                                    <div>Loading...</div>
+                                    <div className="text-white">Loading...</div>
                                 ) : status === EthosConnectStatus.NoConnection ? (
                                     <button onClick={ethos.showSignInModal}>
                                         <img className="w-24 " src="connect.png" alt=""/></button>
@@ -112,7 +112,6 @@ const Story = () =>{
                         create a series of new plants, and plant them in polluted areas. After repeated failures,
                         a robot made of gold finally created a kind of intelligent plant that can absorb pollutants......
                     </div>
-
                 </div>
                 <img className="md:w-7/12 " src="gif动图_故事介绍区域.gif" alt=""/>
 
@@ -271,6 +270,7 @@ const Home = () =>{
 
     return (
         <>
+            <Heads/>
             <div className="">
                 <Header/>
 

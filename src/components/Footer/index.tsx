@@ -7,11 +7,17 @@ const Footer = () =>{
         <div className="bg-black ">
             <Container className={"py-24  "}>
                 <div className="flex justify-center">
-                    <Link href="">
-                        <img className="rounded-full w-24 mr-10" src="discord.svg" alt=""/>
+                    <Link href="https://discord.gg/ceETxS2eTa" legacyBehavior>
+                        <a target="_blank">
+                            <img className="rounded-full w-24 mr-10" src="discord.svg" alt=""/>
+                        </a>
+
                     </Link>
-                    <Link href="">
-                        <img className="rounded-full w-24" src="twitter.svg" alt=""/>
+                    <Link href="https://twitter.com/suirobots" legacyBehavior>
+                        <a target="_blank">
+                            <img className="rounded-full w-24" src="twitter.svg" alt=""/>
+                        </a>
+
                     </Link>
                 </div>
                 <div className="text-white text-center xl:mx-24 mt-10">

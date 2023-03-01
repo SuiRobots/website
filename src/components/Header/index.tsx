@@ -129,11 +129,15 @@ const  Header = () =>{
                 </Popover>
                 <div className="hidden lg:flex gap-4 items-center">
                     <ethos.components.AddressWidget/>
-                    <Link href="">
+                    <Link href="https://discord.gg/ceETxS2eTa" legacyBehavior>
+                        <a target="_blank">
                         <img className="w-6 " src="discord 1.svg" alt=""/>
+                        </a>
                     </Link>
-                    <Link href="">
+                    <Link href="https://twitter.com/suirobots" legacyBehavior>
+                        <a target="_blank">
                         <img className="w-6" src="Twitter1.svg" alt=""/>
+                        </a>
                     </Link>
                 </div>
             </div>

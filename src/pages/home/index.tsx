@@ -67,11 +67,11 @@ const Hero = () =>{
                                 {status === EthosConnectStatus.Loading ? (
                                     <div>Loading...</div>
                                 ) : status === EthosConnectStatus.NoConnection ? (
-                                    <button onClick={ethos.showSignInModal}
-                                            className="bg-red-500 px-3 py-1.5 rounded-lg text-xl text-white font-semibold">Connect</button>
+                                    <button onClick={ethos.showSignInModal}>
+                                        <img className="w-24 " src="connect.png" alt=""/></button>
                                 ) : (
                                     // status is EthosConnectStatus.Connected
-                                    <button onClick={mint} className="">
+                                    <button onClick={mint}>
                                         <img className="w-24 " src="mint.png" alt=""/>
                                     </button>
                                 )}

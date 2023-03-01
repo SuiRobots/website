@@ -58,7 +58,7 @@ const  Header = () =>{
     return (
         <div className={classNames(scroll?'p-3 backdrop-blur-sm bg-[#2E2E2E]/80':"py-4","flex  fixed z-40 inset-x-0 p-2 px-5 w-full justify-between xl:px-20 transition-all duration-700 ease-in-out mx-auto items-center items-center")}>
             <div className={"relative z-10 items-center flex"}>
-                <Link href="src/components/Header/index" legacyBehavior>
+                <Link href="" legacyBehavior>
                 <a>
                     <img
                         className="w-56 h-12 rounded-full hidden lg:flex lg:mr-5"

@@ -2,7 +2,7 @@ import Head from 'next/head'
 const Heads = () =>{
     return(
         <Head>
-            <title>Sui Robots</title>
+            <title>Sui Robots｜First Combinable Dynamic NFT Robot Collection on Sui</title>
             {/*<meta*/}
             {/*    name="description"*/}
             {/*    content="Seamless Portal to Web3.0."*/}

@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 
 const IMG = [
     {
-        img:"IMG_0644.PNG",
+        img:"IMG_0644.PNG11",
         title:""
     },
     {

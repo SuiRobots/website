@@ -181,19 +181,19 @@ const Work = () =>{
                     </div>
 
                 </div>
-                <div className="text-center font-semibold mt-10">
-                    <div className="text-white">
-                        Rights and Interests
-                    </div>
-                    <div className="text-[#F24544]">
-                        You can get rewards for cooperation with other ecological projects.
-                        <br/>
-                        Community governance voting.
-                        <br/>
-                        Proposal right of treasury use.
-                    </div>
+                {/*<div className="text-center font-semibold mt-10">*/}
+                {/*    <div className="text-white">*/}
+                {/*        Rights and Interests*/}
+                {/*    </div>*/}
+                {/*    <div className="text-[#F24544]">*/}
+                {/*        You can get rewards for cooperation with other ecological projects.*/}
+                {/*        <br/>*/}
+                {/*        Community governance voting.*/}
+                {/*        <br/>*/}
+                {/*        Proposal right of treasury use.*/}
+                {/*    </div>*/}
 
-                </div>
+                {/*</div>*/}
             </div>
         </div>
     )

@@ -62,7 +62,7 @@ const Hero = () =>{
             <OpenBox/>
             <Pop_up_box/>
             <div className="bg-black "  >
-                <Container className={"pt-48"}>
+                <Container className={"pt-28 2xl:pt-48"}>
                     <div className=" items-center">
                     <div className="text-[#FFEA68] font-black text-6xl italic text-center">
                         <div className="mb-10">
@@ -134,7 +134,7 @@ const Work = () =>{
     return(
         <div id='work'>
 
-            <div className="py-36">
+            <div className="pt-36">
                 <div className="text-center text-4xl font-semibold text-[#FFEA68]">
                     IN THE WORKS
                 </div>
@@ -157,21 +157,25 @@ const Work = () =>{
                         <img className="w-24 h-24" src="/work/tokens_gif.gif" alt=""/>
                         <div className="ml-10">
                             <div className="text-white font-black text-xl">
-                                Governance
+                               Treasury
                             </div>
                             <div className="text-[#959595]">
-                                In the future, NFT holders get the right to vote on governance to determine community development </div>
-                        </div>
+                                Open up access to the vault in the future and apply for funds to develop the community through proposals
+                            </div>
+
+                          </div>
                     </div>
 
                     <div className="flex  p-10">
                         <img className="w-24 h-24" src="/work/投票治理gif.gif" alt=""/>
                         <div className="ml-10">
                             <div className="text-white font-black text-xl">
-                                Treasury
+                                Governance
                             </div>
                             <div className="text-[#959595]">
-                                Open up access to the vault in the future and apply for funds to develop the community through proposals</div>
+                                In the future, NFT holders get the right to vote on governance to determine community development
+                            </div>
+
                         </div>
 
                     </div>
@@ -191,6 +195,49 @@ const Work = () =>{
 
                 </div>
             </div>
+        </div>
+    )
+}
+
+const Roadmap = () =>{
+    const list = [
+        {
+            h1:"Twitter、Discord、Website Build"
+        },
+        {
+            h1:"Community team building, community stewards, mod recruitment"
+        },
+        {
+            h1:"Work with the official and ecological projects to build the market and influence, so that the community user growth"
+        },
+        {
+            h1:"Mint 1000 NFT"
+        },
+        {
+            h1:"Community governance product goes live, opens voting and vault"
+        },
+        {
+            h1:"More updates will be available in the next phase"
+        },
+
+    ]
+    return(
+        <div id="roadmap" className="pt-36">
+            <div className="text-center text-4xl font-semibold text-[#FFEA68]">
+                ROADMAP
+            </div>
+            <div className="py-10 flex justify-center">
+                <img className="w-48 " src="/roadmap.gif" alt=""/>
+            </div>
+                <ol className="text-center text-white ">
+                    {list.map(items=>(
+                        <li key={items.h1} className="list-decimal list-inside">
+                            {items.h1}
+                        </li>
+                    ))}
+
+                </ol>
+
         </div>
     )
 }
@@ -235,7 +282,7 @@ const Team = () =>{
         },
     ]
     return(
-        <div id="team" className="py-36">
+        <div id="team" className="pt-36">
             <div className="text-center text-4xl font-semibold text-[#FFEA68]">
                 A WORLD CLASS TEAM, WITH A BIG MISSION
             </div>
@@ -252,26 +299,26 @@ const Team = () =>{
 
                 </div>
             </div>
-            <div className="flex justify-center mt-10">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-x-24 md:gap-y-10">
-                {teamList.map((item=>(
-                    <div key={item.img} className=" items-center text-white text-sm md:text-base text-center">
-                        <img className="w-full " src={item.img} alt=""/>
-                        <div className="text-[#F24544] font-semibold   mt-4" >
-                            {item.name}
-                        </div>
-                        <div>
-                            {item.position}
-                        </div>
-                        <div>
-                            {item.role}
-                        </div>
+            {/*<div className="flex justify-center mt-10">*/}
+            {/*<div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-x-24 md:gap-y-10">*/}
+            {/*    {teamList.map((item=>(*/}
+            {/*        <div key={item.img} className=" items-center text-white text-sm md:text-base text-center">*/}
+            {/*            <img className="w-full " src={item.img} alt=""/>*/}
+            {/*            <div className="text-[#F24544] font-semibold   mt-4" >*/}
+            {/*                {item.name}*/}
+            {/*            </div>*/}
+            {/*            <div>*/}
+            {/*                {item.position}*/}
+            {/*            </div>*/}
+            {/*            <div>*/}
+            {/*                {item.role}*/}
+            {/*            </div>*/}
 
-                    </div>
-                )))}
+            {/*        </div>*/}
+            {/*    )))}*/}
 
-            </div>
-            </div>
+            {/*</div>*/}
+            {/*</div>*/}
         </div>
     )
 }
@@ -288,6 +335,7 @@ const Home = () =>{
                     <Container className={"py-48"}>
                         <Story/>
                         <Work/>
+                        <Roadmap/>
                         <Team/>
                     </Container>
 

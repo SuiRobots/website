@@ -40,6 +40,7 @@ const  Header = () =>{
     const navigation = [
         {name:"STORY", href:"#story"},
         {name:"WORK", href:"#work"},
+        {name:"ROADMAP", href:"#roadmap"},
         {name:"TEAM", href:"#team"},
     ]
 
@@ -61,7 +62,7 @@ const  Header = () =>{
                 <Link href="" legacyBehavior>
                 <a>
                     <img
-                        className="w-56 h-12 rounded-full hidden lg:flex lg:mr-5"
+                        className="w-56 h-12 rounded-full flex lg:mr-5"
                         src="/LOGO.svg"
                         alt=""
                     />
@@ -78,12 +79,14 @@ const  Header = () =>{
             </div>
             <div className="flex items-center gap-6">
                 <Popover className="lg:hidden">
+
                     {({ open }) => (
                         <>
                             <Popover.Button
                                 className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-gray-500 p-2 outline-none"
                                 aria-label="Toggle site navigation"
                             >
+
                                 {({ open }) =>
                                     open ? (
                                         <ChevronUpIcon className="h-10 w-10" />
@@ -113,12 +116,16 @@ const  Header = () =>{
                                                 y: -32,
                                                 transition: { duration: 0.2 },
                                             }}
-                                            className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pb-6 pt-32 shadow-2xl shadow-gray-900/20"
+                                            className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pb-6 pt-24 shadow-2xl shadow-gray-900/20"
                                         >
-                                            <div className="space-y-4">
-                                                {/*<MobileNavLink href="#features">*/}
-                                                {/*  Features*/}
-                                                {/*</MobileNavLink>*/}
+
+                                            <div className="space-y-4 ">
+                                                {navigation.map((item) => (
+                                                    <Link key={item.name}  href={item.href}
+                                                          className="block text-base leading-7 tracking-tight text-gray-700">
+                                                        {item.name}
+                                                    </Link>
+                                                ))}
                                             </div>
                                         </Popover.Panel>
                                     </>
@@ -127,6 +134,7 @@ const  Header = () =>{
                         </>
                     )}
                 </Popover>
+
                 <div className="hidden lg:flex gap-4 items-center">
                     <ethos.components.AddressWidget/>
                     <Link href="https://discord.gg/ceETxS2eTa" legacyBehavior>

@@ -147,7 +147,8 @@ const Work = () =>{
                             JOIN THE COMMUNITY
                         </div>
                         <div className="text-[#959595]">
-                            White NFT is the lowest threshold <br/>to enter the community
+                            {/*White NFT is the lowest threshold <br/>to enter the community*/}
+                            Unlock your identity and privileges
                         </div>
                     </div>
                 </div>
@@ -156,11 +157,10 @@ const Work = () =>{
                         <img className="w-24 h-24" src="/work/tokens_gif.gif" alt=""/>
                         <div className="ml-10">
                             <div className="text-white font-black text-xl">
-                                TOKENS
+                                Governance
                             </div>
                             <div className="text-[#959595]">
-                                In the future, airdrop coin issuance will be transferred to Dao. POW mechanism mining (contribution is divided according to NFT data)
-                            </div>
+                                In the future, NFT holders get the right to vote on governance to determine community development </div>
                         </div>
                     </div>
 
@@ -168,11 +168,10 @@ const Work = () =>{
                         <img className="w-24 h-24" src="/work/投票治理gif.gif" alt=""/>
                         <div className="ml-10">
                             <div className="text-white font-black text-xl">
-                                TOKENS
+                                Treasury
                             </div>
                             <div className="text-[#959595]">
-                                In the future, airdrop coin issuance will be transferred to Dao. POW mechanism mining (contribution is divided according to NFT data)
-                            </div>
+                                Open up access to the vault in the future and apply for funds to develop the community through proposals</div>
                         </div>
 
                     </div>

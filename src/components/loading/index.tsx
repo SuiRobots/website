@@ -2,11 +2,11 @@
 import React, {Fragment} from "react";
 
 import {useAtom} from "jotai";
-import {LoadingState} from "../../jotai";
+import {OpenBoxState} from "../../jotai";
 import {Dialog, Transition} from "@headlessui/react";
 
 const Loading = () =>{
-    const [openLoading,setOpenLoading] =useAtom(LoadingState)
+    const [openLoading,setOpenLoading] =useAtom(OpenBoxState)
     return(
         <>
             <Transition.Root show={openLoading} as={Fragment}>

@@ -1,8 +1,8 @@
 import {useAtom} from "jotai";
-import {SellPop_up_boxState, SellState} from "../../jotai";
-import {Fragment, useEffect} from "react";
+import {BoxImg, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
+import React, {Fragment, useEffect} from "react";
 import Link from "next/link";
-import {Transition} from "@headlessui/react";
+import {Dialog, Transition} from "@headlessui/react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -34,7 +34,7 @@ const Pop_up_box = () =>{
         <div
             id="Pop_up_box"
             aria-live="assertive"
-            className="pointer-events-none z-40 fixed inset-0 top-12 flex items-end px-4 py-6 sm:items-start sm:p-6 z-40"
+            className="pointer-events-none z-50 fixed inset-0 top-12 flex items-end px-4 py-6 sm:items-start sm:p-6 "
         >
             <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
                 {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
@@ -84,9 +84,6 @@ const Pop_up_box = () =>{
                                             "inline-flex rounded-md  p-1.5")}
                                         onClick={() => {
                                             setSop_up_boxState(false)
-                                            if(pop_up_boxData.state){
-                                                location.reload()
-                                            }
                                         }}
                                     >
                                         <i className="fa fa-times" aria-hidden="true"></i>
@@ -101,72 +98,56 @@ const Pop_up_box = () =>{
         </div>
     )
 }
-//  function Pop_up_box() {
-//     const router = useRouter()
-//     const [sellPop_up_boxState,setSellPop_up_boxState] = useAtom(SellPop_up_boxState)
-//     const [sellState,setSellState] =useAtom(SellState)
-//
-//     let time
-//     useEffect(()=>{
-//         clearTimeout(time)
-//         if(sellPop_up_boxState){
-//             time = setTimeout(()=>{
-//                 setSellPop_up_boxState(false)
-//                 if(sellState.state){
-//                     location.reload()
-//                 }
-//             },5000)
-//         }
-//         const Pop_up_box = document.getElementById('Pop_up_box');
-//         Pop_up_box.onmouseover = function(){
-//             clearInterval(time);
-//         }
-//         Pop_up_box.onmouseout = function(){
-//             time = setTimeout(()=>{
-//                 setSellPop_up_boxState(false)
-//                 if(sellState.state){
-//                     location.reload()
-//                 }
-//             },2000)
-//         }
-//     },[sellPop_up_boxState])
-//     return (
-//         <div
-//             id="Pop_up_box"
-//             aria-live="assertive"
-//             className={sellPop_up_boxState?"flex  fixed z-20 inset-x-0 justify-center":"hidden"}>
-//         <div className={classNames(sellState.state?"bg-green-50":"bg-red-50","rounded-md  p-4 ")}>
-//             <div className="flex">
-//                 <div className="flex-shrink-0">
-//                     <XCircleIcon className={sellState.state?"hidden":"h-5 w-5 text-red-400"} aria-hidden="true" />
-//                     <CheckCircleIcon className={sellState.state?"h-5 w-5 text-green-400":"hidden"} aria-hidden="true" />
-//                 </div>
-//                 <div className="ml-3">
-//                     <p className={classNames(sellState.state?
-//                             "text-green-800"
-//                             :
-//                             "text-red-800",
-//                         "text-sm font-medium ")}>{sellState.state?`${sellState.type}成功`:`${sellState.type}失败`}</p>
-//                 </div>
-//                 <div className="ml-auto pl-3">
-//                     <div className="-mx-1.5 -my-1.5">
-//                         <button
-//                             onClick={()=>setSellPop_up_boxState(false)}
-//                             type="button"
-//                             className={classNames(sellState.state?
-//                                 "bg-green-50 text-green-500 hover:bg-green-100"
-//                                     :
-//                                 "bg-red-50 text-red-500 hover:bg-red-100",
-//                                 "inline-flex rounded-md  p-LICENSE-APACHE2.5")}
-//                         >
-//                             <span className="sr-only">Dismiss</span>
-//                             <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-//                         </button>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//         </div>
-//     )
-// }
-export default Pop_up_box
+
+
+const OpenBox = () =>{
+    const [openBox,setOpenBox] =useAtom(OpenBoxState)
+    const [openBoxLoading,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
+    const [boxImg,setBoxImg] = useAtom(BoxImg)
+    return(
+        <>
+            <Transition.Root show={openBox} as={Fragment}>
+                <Dialog as="div" className="relative z-40" onClose={()=>false}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-800 bg-opacity-90 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 overflow-y-auto">
+                        <div className="flex min-h-full items-center  justify-center p-4 text-center sm:items-center sm:p-0">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="">
+                                    <div className={boxImg==""?"":"hidden"}>
+                                        <img className={openBoxLoading?"w-97":"w-72 mt-14"} src={openBoxLoading?"/openBoxLoading.gif":"/loading.gif"} alt=""/>
+                                    </div>
+                                    <img className={boxImg==""?"hidden":"w-72 mt-14"} src={boxImg} alt=""/>
+                                    <div>
+                                        <button className={boxImg==""?"hidden":" px-5 py-1.5 bg-white rounded-lg mt-5"} onClick={()=>setOpenBox(false)}>
+                                            confirm
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+        </>
+    )
+}
+export {Pop_up_box,OpenBox}

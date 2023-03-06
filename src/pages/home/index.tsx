@@ -4,19 +4,23 @@ import Footer from "../../components/Footer";
 import {ethos, EthosConnectStatus, SignInButton} from "ethos-connect";
 import {useCallback} from "react";
 import {useAtom} from "jotai";
-import {LoadingState, SellPop_up_boxState, SellState} from "../../jotai";
+import {BoxImg, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
 import Loading from "../../components/loading";
-import Pop_up_box from "../../components/pop_up_box";
+import {OpenBox, Pop_up_box} from "../../components/pop_up_box";
 import Heads from "../../components/head";
 
 const Hero = () =>{
     const { wallet,status } = ethos.useWallet()
     const contractAddress = '0x0000000000000000000000000000000000000002'
-    const [openLoading,setOpenLoading] =useAtom(LoadingState)
-    const [sellState,setSellState] =useAtom(SellState)
+    const [,setOpenLoading] =useAtom(OpenBoxState)
+    const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
+    const [,setSellState] =useAtom(SellState)
     const [,setSellPop_up_boxState] = useAtom(SellPop_up_boxState)
+    const [,setBoxImg] = useAtom(BoxImg)
     const mint = useCallback(async () => {
         setOpenLoading(true)
+        setOpenBoxLoading(false)
+        setBoxImg("")
         if (!wallet) return
         try {
             const signableTransaction = {
@@ -37,19 +41,25 @@ const Hero = () =>{
           const result =   await wallet.signAndExecuteTransaction(signableTransaction)
             const tx_status = result.effects.status.status;
             if(tx_status == "success"){
-                setSellState({state:true,type:"Mint",hash: result.certificate.transactionDigest})
-                setSellPop_up_boxState(true)
+                setOpenBoxLoading(true)
+                setTimeout(
+                    ()=>{
+                        setBoxImg("/team/小丑.svg")
+                        setSellState({state:true,type:"Mint",hash: result.certificate.transactionDigest})
+                        setSellPop_up_boxState(true)
+                    }, 3500)
             }
         } catch (error) {
             setSellState({state:false,type:"Mint",hash: ""})
             setSellPop_up_boxState(true)
+            await setOpenLoading(false)
             // console.log(error)
         }
-       await setOpenLoading(false)
+
     }, [wallet])
     return(
         <>
-            <Loading/>
+            <OpenBox/>
             <Pop_up_box/>
             <div className="bg-black "  >
                 <Container className={"pt-48"}>

@@ -4,7 +4,7 @@ import Link from "next/link";
 const Footer = () =>{
 
     return(
-        <div className="bg-black ">
+        <div className="bg-black  ">
             <Container className={"py-24  "}>
                 <div className="flex justify-center">
                     <Link href="https://discord.gg/ceETxS2eTa" legacyBehavior>

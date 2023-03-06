@@ -88,10 +88,6 @@ const Hero = () =>{
                             </div>
                         </div>
 
-
-
-
-
                     </div>
                 </Container>
 
@@ -103,8 +99,8 @@ const Hero = () =>{
 const Story = () =>{
     return(
         <div id="story">
-            <div className="md:flex justify-between items-center ">
-                <div className="md:mt-32">
+            <div className="md:flex justify-between items-center pt-32">
+                <div className="mb-32">
                     <div className="text-[#FFEA68] font-semibold text-3xl">
                         The birth of crazy robots
                     </div>
@@ -282,7 +278,7 @@ const Team = () =>{
         },
     ]
     return(
-        <div id="team" className="pt-36">
+        <div id="team" className="py-36">
             <div className="text-center text-4xl font-semibold text-[#FFEA68]">
                 A WORLD CLASS TEAM, WITH A BIG MISSION
             </div>
@@ -332,7 +328,7 @@ const Home = () =>{
 
                 <Hero/>
                 <div className="bg-black">
-                    <Container className={"py-48"}>
+                    <Container className={""}>
                         <Story/>
                         <Work/>
                         <Roadmap/>

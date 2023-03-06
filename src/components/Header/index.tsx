@@ -62,7 +62,7 @@ const  Header = () =>{
                 <Link href="" legacyBehavior>
                 <a>
                     <img
-                        className="w-56 h-12 rounded-full flex lg:mr-5"
+                        className="md:w-56 h-12 rounded-full flex lg:mr-5"
                         src="/LOGO.svg"
                         alt=""
                     />
@@ -116,13 +116,13 @@ const  Header = () =>{
                                                 y: -32,
                                                 transition: { duration: 0.2 },
                                             }}
-                                            className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pb-6 pt-24 shadow-2xl shadow-gray-900/20"
+                                            className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl  bg-[#2E2E2E] px-6 pb-6 pt-24 shadow-2xl shadow-gray-900/20"
                                         >
 
                                             <div className="space-y-4 ">
                                                 {navigation.map((item) => (
                                                     <Link key={item.name}  href={item.href}
-                                                          className="block text-base leading-7 tracking-tight text-gray-700">
+                                                          className="block text-base leading-7 tracking-tight text-white">
                                                         {item.name}
                                                     </Link>
                                                 ))}

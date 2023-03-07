@@ -4,195 +4,151 @@ import {useEffect, useState} from "react";
 
 const IMG = [
     {
-        img:"IMG_0644.PNG11",
+        img:"/team/恶魔.svg",
         title:""
     },
     {
-        img:"IMG_0645.PNG",
+        img:"/team/水晶.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/燃烧.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/玻璃.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/恶魔.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/水晶.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/燃烧.svg",
         title:""
     },
     {
-        img:"IMG_0644.PNG",
+        img:"/team/玻璃.svg",
         title:""
     },
     {
-        img:"IMG_0645.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/恶魔.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/水晶.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/燃烧.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/玻璃.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0644.PNG",
+        img:"/team/恶魔.svg",
         title:""
     },
     {
-        img:"IMG_0645.PNG",
+        img:"/team/水晶.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/燃烧.svg",
         title:""
     },
     {
-        img:"IMG_0660.PNG",
+        img:"/team/玻璃.svg",
         title:""
     },
     {
-        img:"IMG_0661.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0655.PNG",
+        img:"/team/恶魔.svg",
         title:""
     },
     {
-        img:"IMG_0653.PNG",
+        img:"/team/水晶.svg",
         title:""
     },
     {
-        img:"IMG_0652.PNG",
+        img:"/team/燃烧.svg",
         title:""
     },
     {
-        img:"IMG_0644.PNG",
+        img:"/team/玻璃.svg",
         title:""
     },
     {
-        img:"IMG_0645.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/恶魔.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/水晶.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/燃烧.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/玻璃.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
     {
-        img:"IMG_0644.PNG",
+        img:"/team/恶魔.svg",
         title:""
     },
     {
-        img:"IMG_0645.PNG",
+        img:"/team/水晶.svg",
         title:""
     },
     {
-        img:"IMG_0646.PNG",
+        img:"/team/燃烧.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
+        img:"/team/玻璃.svg",
         title:""
     },
     {
-        img:"IMG_0647.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0646.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0647.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0647.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0644.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0645.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0646.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0660.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0661.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0655.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0653.PNG",
-        title:""
-    },
-    {
-        img:"IMG_0652.PNG",
+        img:"/team/黄金.svg",
         title:""
     },
 
@@ -201,12 +157,21 @@ const IMG = [
 const Go = () =>{
     const [time,setTime] =useState(50)
 
+    const [length,setLength] =useState(0)
 
     useEffect(()=>{
-        return ()=> {
-            clearInterval(time1)
+        console.log(length)
+        if(length*4<100){
+            setTimeout(
+                ()=>{
+                    setLength(length+1)
+                },50)
         }
-    },[])
+
+        // return ()=> {
+        //     clearInterval(time1)
+        // }
+    },[length])
     let index = 0
 
     let time1
@@ -227,7 +192,6 @@ const Go = () =>{
                         left.style.marginLeft = -10 + "rem"
                         // clearInterval(time1)
                         // setTime(1000)
-
                     }
 
                 }
@@ -260,11 +224,19 @@ const Go = () =>{
             <button onClick={spin}>
                 w
             </button>
-            <div  className=" mb-96 bg-white grid grid-cols-4 gap-10 mx-48">
-                {IMG.map((items=>(
-                    <img className="" key={items.img} src={items.img} alt=""/>
-                )))}
+
+            <div className="flex justify-center">
+                <div className="relative w-72 h-56  h-4 bg-gray-400 ">
+                    <img className="absolute" src="群体机器人.png" alt=""/>
+                    <div className="bg-black h-56  bg-opacity-80" style={{width:`${length*4}%`}}></div>
+                </div>
+
             </div>
+
+                <div className="flex justify-center">
+                    {length*4}%
+                </div>
+
 
         </div>
     )

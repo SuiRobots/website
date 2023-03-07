@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import { Container } from '../../components/Container'
 import Footer from "../../components/Footer";
 import {ethos, EthosConnectStatus, SignInButton} from "ethos-connect";
-import {useCallback} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useAtom} from "jotai";
 import {BoxImg, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
 import Loading from "../../components/loading";
@@ -319,31 +319,64 @@ const Team = () =>{
     )
 }
 const Home = () =>{
+    const [length,setLength] =useState(0)
+    const [goHome,setGoHome] =useState(false)
+    useEffect(()=>{
+        if(length*4<100){
+            setTimeout(
+                ()=>{
+                    setLength(length+1)
+                },50)
+        }else {
+            setTimeout(
+                ()=>{
+                    setGoHome(true)
+                },500)
 
-    return (
-        <>
-            <Heads/>
-            <div className="">
-                <Header/>
-
-                <Hero/>
-                <div className="bg-black">
-                    <Container className={""}>
-                        <Story/>
-                        <Work/>
-                        <Roadmap/>
-                        <Team/>
-                    </Container>
+        }
+    },[length])
+    if(!goHome){
+        return (
+            <div className=" ease-in-out flex flex-col h-screen justify-center">
+                <div className="flex justify-center">
+                    <div className="relative w-64 h-14  bg-gray-400 rounded-lg">
+                        <img className="absolute h-14" src="LOGO.svg" alt=""/>
+                        <div className="bg-black h-14  bg-opacity-80 rounded-lg" style={{width:`${length*4}%`}}></div>
+                    </div>
 
                 </div>
-                <Footer/>
+
+                <div className="flex justify-center">
+                    {length*4}%
+                </div>
+            </div>
+        )
+
+    }else {
+        return (
+            <div className="transition duration-700 ease-in-out">
+                <Heads/>
+                <div className="">
+                    <Header/>
+                    <Hero/>
+                    <div className="bg-black">
+                        <Container className={""}>
+                            <Story/>
+                            <Work/>
+                            <Roadmap/>
+                            <Team/>
+                        </Container>
+
+                    </div>
+                    <Footer/>
+                </div>
+
+
             </div>
 
+        )
+    }
 
-        </>
-
-
-    )
 }
 
 export default Home

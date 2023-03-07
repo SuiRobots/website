@@ -55,11 +55,26 @@ const  Header = () =>{
             setScroll(false)
         }
     };
+   const to = (toEl)=>{
+       let  bridge=document.querySelector(toEl);
+       let body =document.body;
+       let height =0;
+       do{
+           height+=bridge.offsetTop;
+           bridge=bridge.offsetParent;
+       }while(bridge!==body)
+
+       window.scrollTo({
+           top:height,
+           behavior:'smooth'
+       })
+
+   }
 
     return (
         <div className={classNames(scroll?'p-3 backdrop-blur-sm bg-[#2E2E2E]/80':"py-4","flex  fixed z-40 inset-x-0 p-2 px-5 w-full justify-between xl:px-20 transition-all duration-700 ease-in-out mx-auto items-center items-center")}>
             <div className={"relative z-10 items-center flex"}>
-                <Link href="" legacyBehavior>
+                <Link href="/" legacyBehavior>
                 <a>
                     <img
                         className="md:w-56 h-12 rounded-full flex lg:mr-5"
@@ -70,10 +85,10 @@ const  Header = () =>{
                 </Link>
                 <div className="hidden lg:flex lg:gap-10">
                     {navigation.map((item) => (
-                        <a key={item.name}  href={item.href}
+                        <button key={item.name}   onClick={()=>{to(item.href)}}
                            className="text-sm lg:text-base font-medium text-white transition duration-700 ">
                             {item.name}
-                        </a>
+                        </button>
                     ))}
                 </div>
             </div>
@@ -121,10 +136,10 @@ const  Header = () =>{
 
                                             <div className="space-y-4 ">
                                                 {navigation.map((item) => (
-                                                    <Link key={item.name}  href={item.href}
+                                                    <button key={item.name}  onClick={()=>to(item.href)}
                                                           className="block text-base leading-7 tracking-tight text-white">
                                                         {item.name}
-                                                    </Link>
+                                                    </button>
                                                 ))}
                                             </div>
                                         </Popover.Panel>

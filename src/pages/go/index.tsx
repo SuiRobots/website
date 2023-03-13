@@ -227,7 +227,7 @@ const Go = () =>{
 
             <div className="flex justify-center">
                 <div className="relative w-72 h-56  h-4 bg-gray-400 ">
-                    <img className="absolute" src="群体机器人.png" alt=""/>
+                    <img className="absolute" src="allRobots.png" alt=""/>
                     <div className="bg-black h-56  bg-opacity-80" style={{width:`${length*4}%`}}></div>
                 </div>
 

@@ -46,7 +46,7 @@ const Story = () =>{
                         a robot made of gold finally created a kind of intelligent plant that can absorb pollutants......
                     </div>
                 </div>
-                <img className="md:w-7/12 " src="gif动图_故事介绍区域.gif" alt=""/>
+                <img className="md:w-7/12 " src="/story_robots.gif" alt=""/>
 
             </div>
         </div>
@@ -64,7 +64,7 @@ const Work = () =>{
                 <div className="flex justify-center text-center py-10 border-b border-[#4F4F4F]">
                     <div >
                         <div className="flex justify-center">
-                        <img className="w-24" src="/work/加入社区gif.gif" alt=""/>
+                        <img className="w-24" src="/work/join_community.gif" alt=""/>
                         </div>
                         <div className="my-5 text-white font-black text-xl">
                             JOIN THE COMMUNITY
@@ -77,7 +77,7 @@ const Work = () =>{
                 </div>
                 <div className="md:flex justify-between   ">
                     <div className="flex p-10 border-b md:border-b-0 md:border-r border-[#4F4F4F]">
-                        <img className="w-24 h-24" src="/work/tokens_gif.gif" alt=""/>
+                        <img className="w-24 h-24" src="/work/tokens.gif" alt=""/>
                         <div className="ml-10">
                             <div className="text-white font-black text-xl">
                                Treasury
@@ -90,7 +90,7 @@ const Work = () =>{
                     </div>
 
                     <div className="flex  p-10">
-                        <img className="w-24 h-24" src="/work/投票治理gif.gif" alt=""/>
+                        <img className="w-24 h-24" src="/work/vote.gif" alt=""/>
                         <div className="ml-10">
                             <div className="text-white font-black text-xl">
                                 Governance

@@ -10,7 +10,8 @@ const Hero = () =>{
         <>
             <OpenBox/>
             <Pop_up_box/>
-            <div className="bg-black relative h-screen bg-repeat bg-center "  style={{backgroundImage:"url('/Background_map_of_official_website.gif')"}} >
+            <div className=" bg-black relative h-screen bg-repeat bg-center "  style={{backgroundImage:"url('/Background_map_of_official_website.gif')"}} >
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0B0B0B]" />
                 <img className="absolute " src="" alt=""/>
                 <img className="absolute z-10 bottom-1/2 lg:bottom-24" src="LOGO.gif" alt=""/>
                 <Container className={" flex flex-col justify-end h-full pb-20"}>
@@ -26,7 +27,7 @@ const Story = () =>{
     return(
         <div id="story">
             <div className="md:flex justify-between items-center pt-32">
-                <div className="mb-32">
+                <div className="mt-32">
                     <div className="text-[#FFEA68] font-semibold text-3xl">
                         The birth of crazy robots
                     </div>
@@ -285,7 +286,7 @@ const Home = () =>{
                 <div className="">
                     <Header/>
                     <Hero/>
-                    <div className="bg-black">
+                    <div className="bg-[#0B0B0B]">
                         <Container className={""}>
                             <Story/>
                             <Work/>

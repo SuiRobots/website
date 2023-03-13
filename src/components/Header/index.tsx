@@ -91,7 +91,7 @@ const Mint = () =>{
                 <div className=" flex justify-center  " >
                     <div className="flex justify-center">
                         {status === EthosConnectStatus.Loading ? (
-                            <div className="text-white">Loading...</div>
+                            <div className="text-white"></div>
                         ) : status === EthosConnectStatus.NoConnection ? (
                             <div>
 

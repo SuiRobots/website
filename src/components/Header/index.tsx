@@ -1,8 +1,10 @@
 import Link from "next/link";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ethos } from "ethos-connect";
+import {ethos, EthosConnectStatus} from "ethos-connect";
+import {BoxImg, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
+import {useAtom} from "jotai";
 
 
 function classNames(...classes) {
@@ -35,7 +37,83 @@ function ChevronUpIcon(props) {
     )
 }
 
+const Mint = () =>{
+    const { wallet,status } = ethos.useWallet()
+    const contractAddress = '0x0000000000000000000000000000000000000002'
+    const [,setOpenLoading] =useAtom(OpenBoxState)
+    const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
+    const [,setSellState] =useAtom(SellState)
+    const [,setSellPop_up_boxState] = useAtom(SellPop_up_boxState)
+    const [,setBoxImg] = useAtom(BoxImg)
+    const mint = useCallback(async () => {
+        setOpenLoading(true)
+        setOpenBoxLoading(false)
+        setBoxImg("")
+        if (!wallet) return
+        try {
+            const signableTransaction = {
+                kind: 'moveCall' as const,
+                data: {
+                    packageObjectId: contractAddress,
+                    module: 'devnet_nft',
+                    function: 'mint',
+                    typeArguments: [],
+                    arguments: [
+                        'Example NFT Name',
+                        'This is a description',
+                        'https://ethoswallet.xyz/assets/images/ethos-email-logo.png',
+                    ],
+                    gasBudget: 10000,
+                },
+            }
+            const result =   await wallet.signAndExecuteTransaction(signableTransaction)
+            const tx_status = result.effects.status.status;
+            if(tx_status == "success"){
+                setOpenBoxLoading(true)
+                setTimeout(
+                    ()=>{
+                        setBoxImg("/team/小丑.svg")
+                        setSellState({state:true,type:"Mint",hash: result.certificate.transactionDigest})
+                        setSellPop_up_boxState(true)
+                    }, 3500)
+            }
+        } catch (error) {
+            setSellState({state:false,type:"Mint",hash: ""})
+            setSellPop_up_boxState(true)
+            await setOpenLoading(false)
+            // console.log(error)
+        }
+
+    }, [wallet])
+    return(
+        <>
+            <div className=" items-center">
+                <div className=" flex justify-center  " >
+                    <div className="flex justify-center">
+                        {status === EthosConnectStatus.Loading ? (
+                            <div className="text-white">Loading...</div>
+                        ) : status === EthosConnectStatus.NoConnection ? (
+                            <div>
+
+                            </div>
+                            // <button onClick={ethos.showSignInModal}>
+                            //     <img className="w-24 z-20 relative" src="connect.png" alt=""/></button>
+                        ) : (
+                            // status is EthosConnectStatus.Connected
+                            <button onClick={mint}>
+                                <img className="w-24 z-20 relative" src="mint.png" alt=""/>
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
 const  Header = () =>{
+
+
     const [scroll,setScroll]=useState(false)
     const navigation = [
         {name:"STORY", href:"#story"},
@@ -55,7 +133,7 @@ const  Header = () =>{
             setScroll(false)
         }
     };
-   const to = (toEl)=>{
+    const to = (toEl)=>{
        let  bridge=document.querySelector(toEl);
        let body =document.body;
        let height =0;
@@ -70,6 +148,9 @@ const  Header = () =>{
        })
 
    }
+
+
+
 
     return (
         <div className={classNames(scroll?'p-3 backdrop-blur-sm bg-[#2E2E2E]/80':"py-4","flex  fixed z-40 inset-x-0 p-2 px-5 w-full justify-between xl:px-20 transition-all duration-700 ease-in-out mx-auto items-center items-center")}>
@@ -151,6 +232,7 @@ const  Header = () =>{
                 </Popover>
 
                 <div className="hidden lg:flex gap-4 items-center">
+                  <Mint/>
                     <ethos.components.AddressWidget/>
                     <Link href="https://discord.gg/ceETxS2eTa" legacyBehavior>
                         <a target="_blank">

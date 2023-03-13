@@ -1,94 +1,20 @@
 import Header from "../../components/Header";
 import { Container } from '../../components/Container'
 import Footer from "../../components/Footer";
-import {ethos, EthosConnectStatus, SignInButton} from "ethos-connect";
-import {useCallback, useEffect, useState} from "react";
-import {useAtom} from "jotai";
-import {BoxImg, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
-import Loading from "../../components/loading";
+import {useEffect, useState} from "react";
 import {OpenBox, Pop_up_box} from "../../components/pop_up_box";
 import Heads from "../../components/head";
 
 const Hero = () =>{
-    const { wallet,status } = ethos.useWallet()
-    const contractAddress = '0x0000000000000000000000000000000000000002'
-    const [,setOpenLoading] =useAtom(OpenBoxState)
-    const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
-    const [,setSellState] =useAtom(SellState)
-    const [,setSellPop_up_boxState] = useAtom(SellPop_up_boxState)
-    const [,setBoxImg] = useAtom(BoxImg)
-    const mint = useCallback(async () => {
-        setOpenLoading(true)
-        setOpenBoxLoading(false)
-        setBoxImg("")
-        if (!wallet) return
-        try {
-            const signableTransaction = {
-                kind: 'moveCall' as const,
-                data: {
-                    packageObjectId: contractAddress,
-                    module: 'devnet_nft',
-                    function: 'mint',
-                    typeArguments: [],
-                    arguments: [
-                        'Example NFT Name',
-                        'This is a description',
-                        'https://ethoswallet.xyz/assets/images/ethos-email-logo.png',
-                    ],
-                    gasBudget: 10000,
-                },
-            }
-          const result =   await wallet.signAndExecuteTransaction(signableTransaction)
-            const tx_status = result.effects.status.status;
-            if(tx_status == "success"){
-                setOpenBoxLoading(true)
-                setTimeout(
-                    ()=>{
-                        setBoxImg("/team/小丑.svg")
-                        setSellState({state:true,type:"Mint",hash: result.certificate.transactionDigest})
-                        setSellPop_up_boxState(true)
-                    }, 3500)
-            }
-        } catch (error) {
-            setSellState({state:false,type:"Mint",hash: ""})
-            setSellPop_up_boxState(true)
-            await setOpenLoading(false)
-            // console.log(error)
-        }
-
-    }, [wallet])
     return(
         <>
             <OpenBox/>
             <Pop_up_box/>
-            <div className="bg-black "  >
-                <Container className={"pt-28 2xl:pt-48"}>
-                    <div className=" items-center">
-                    <div className="text-[#FFEA68] font-black text-6xl italic text-center">
-                        <div className="mb-10">
-                            Crazy Robots
-                        </div>
-                    </div>
-                        <div className="flex justify-center md:justify-between py-56 bg-no-repeat  bg-center lg:bg-left-bottom"  style={{backgroundImage:"url('/群体机器人.png')"}}>
-                            <div className="hidden md:block">
+            <div className="bg-black relative h-screen bg-repeat bg-center "  style={{backgroundImage:"url('/Background_map_of_official_website.gif')"}} >
+                <img className="absolute " src="" alt=""/>
+                <img className="absolute z-10 bottom-1/2 lg:bottom-24" src="LOGO.gif" alt=""/>
+                <Container className={" flex flex-col justify-end h-full pb-20"}>
 
-                            </div>
-                            <div className="flex justify-center mt-20 md:mt-0">
-                                {status === EthosConnectStatus.Loading ? (
-                                    <div className="text-white">Loading...</div>
-                                ) : status === EthosConnectStatus.NoConnection ? (
-                                    <button onClick={ethos.showSignInModal}>
-                                        <img className="w-24 " src="connect.png" alt=""/></button>
-                                ) : (
-                                    // status is EthosConnectStatus.Connected
-                                    <button onClick={mint}>
-                                        <img className="w-24 " src="mint.png" alt=""/>
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-
-                    </div>
                 </Container>
 
             </div>

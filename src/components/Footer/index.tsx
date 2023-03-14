@@ -38,10 +38,7 @@ const Footer = () =>{
                     TERMS & CONDITIONS
                 </div>
                 <div className="flex items-center justify-center">
-                    <div className="px-1 border rounded-full text-center mr-1">
-                        c
-                    </div>
-                    2023 SUIROBOTS
+                    ©️ 2023 SUIROBOTS
                 </div>
 
             </div>

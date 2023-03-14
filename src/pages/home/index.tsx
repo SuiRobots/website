@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import {useEffect, useState} from "react";
 import {OpenBox, Pop_up_box} from "../../components/pop_up_box";
 import Heads from "../../components/head";
+import {InertiaTitle, Title, TweenTitle} from "../../components/Title";
 
 const Hero = () =>{
     return(
@@ -11,12 +12,8 @@ const Hero = () =>{
             <OpenBox/>
             <Pop_up_box/>
             <div className=" bg-black relative h-screen bg-repeat bg-center "  style={{backgroundImage:"url('/Background_map_of_official_website.gif')"}} >
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0B0B0B]" />
-                <img className="absolute " src="" alt=""/>
-                <img className="absolute z-10 bottom-1/2 lg:bottom-24" src="LOGO.gif" alt=""/>
-                <Container className={" flex flex-col justify-end h-full pb-20"}>
-
-                </Container>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0B0B0B]" />
+             <img className="absolute z-10 bottom-1/2 lg:bottom-24" src="LOGO.gif" alt=""/>
 
             </div>
         </>
@@ -26,13 +23,14 @@ const Hero = () =>{
 const Story = () =>{
     return(
         <div id="story">
-            <div className="md:flex justify-between items-center pt-32">
-                <div className="mt-32">
+            <div className="md:flex justify-between  ">
+                <div className=" ">
+                    <InertiaTitle>
                     <div className="text-[#FFEA68] font-semibold text-3xl">
                         The birth of crazy robots
                     </div>
                     <div className="text-white mt-4">
-                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                            {/* eslint-disable-next-line react/no-unescaped-entities */}
                         With the serious consumption of the earth's resources, the earth's biological system has
                         gradually collapsed. The last group of high-quality living humans created a humanoid
                         intelligent robot and transmitted their consciousness to the chip of the robot to replace
@@ -45,8 +43,10 @@ const Story = () =>{
                         create a series of new plants, and plant them in polluted areas. After repeated failures,
                         a robot made of gold finally created a kind of intelligent plant that can absorb pollutants......
                     </div>
+                    </InertiaTitle>
                 </div>
-                <img className="md:w-7/12 " src="/story_robots.gif" alt=""/>
+
+                    <img className="md:w-7/12" src="/story_robots.gif" alt=""/>
 
             </div>
         </div>
@@ -64,11 +64,15 @@ const Work = () =>{
                 <div className="flex justify-center text-center py-10 border-b border-[#4F4F4F]">
                     <div >
                         <div className="flex justify-center">
+                        <Title>
                         <img className="w-24" src="/work/join_community.gif" alt=""/>
+                        </Title>
                         </div>
+                        <Title>
                         <div className="my-5 text-white font-black text-xl">
                             JOIN THE COMMUNITY
                         </div>
+                        </Title>
                         <div className="text-[#959595]">
                             {/*White NFT is the lowest threshold <br/>to enter the community*/}
                             Unlock your identity and privileges
@@ -77,28 +81,38 @@ const Work = () =>{
                 </div>
                 <div className="md:flex justify-between   ">
                     <div className="flex p-10 border-b md:border-b-0 md:border-r border-[#4F4F4F]">
-                        <img className="w-24 h-24" src="/work/tokens.gif" alt=""/>
+                    <Title>
+                        <img className="w-48 h-24" src="/work/tokens.gif" alt=""/>
+                    </Title>
                         <div className="ml-10">
+                        <Title>
                             <div className="text-white font-black text-xl">
                                Treasury
                             </div>
+                    </Title>
+                            <Title>
                             <div className="text-[#959595]">
                                 Open up access to the vault in the future and apply for funds to develop the community through proposals
                             </div>
-
+                            </Title>
                           </div>
                     </div>
 
                     <div className="flex  p-10">
-                        <img className="w-24 h-24" src="/work/vote.gif" alt=""/>
+                    <Title>
+                        <img className="w-48 h-24" src="/work/vote.gif" alt=""/>
+                </Title>
                         <div className="ml-10">
+                            <Title>
                             <div className="text-white font-black text-xl">
                                 Governance
                             </div>
+                            </Title>
+                            <Title>
                             <div className="text-[#959595]">
                                 In the future, NFT holders get the right to vote on governance to determine community development
                             </div>
-
+                            </Title>
                         </div>
 
                     </div>
@@ -146,6 +160,7 @@ const Roadmap = () =>{
     ]
     return(
         <div id="roadmap" className="pt-36">
+
             <div className="text-center text-4xl font-semibold text-[#FFEA68]">
                 ROADMAP
             </div>
@@ -265,6 +280,7 @@ const Home = () =>{
     if(!goHome){
         return (
             <div className=" ease-in-out flex flex-col h-screen justify-center">
+                <Heads/>
                 <div className="flex justify-center">
                     <div className="relative w-64 h-14  bg-gray-400 rounded-lg">
                         <img className="absolute h-14" src="LOGO.svg" alt=""/>
@@ -281,24 +297,32 @@ const Home = () =>{
 
     }else {
         return (
-            <div className="transition duration-700 ease-in-out">
+            <div className=" bg-[#0B0B0B]">
                 <Heads/>
                 <div className="">
                     <Header/>
-                    <Hero/>
-                    <div className="bg-[#0B0B0B]">
-                        <Container className={""}>
-                            <Story/>
-                            <Work/>
-                            <Roadmap/>
-                            <Team/>
-                        </Container>
 
+                    <Title>
+                        <Hero/>
+                    </Title>
+
+                    <div className="">
+                        <Container className={""}>
+
+                            <Story/>
+
+                            <Work/>
+
+                            <TweenTitle>
+                            <Roadmap/>
+                                </TweenTitle>
+
+                            <Team/>
+
+                        </Container>
                     </div>
                     <Footer/>
                 </div>
-
-
             </div>
 
         )

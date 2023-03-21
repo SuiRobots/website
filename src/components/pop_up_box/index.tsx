@@ -1,8 +1,16 @@
 import {useAtom} from "jotai";
-import {BoxImg, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
+import {
+    BoxImg,
+    ComingState,
+    OpenBoxLoadingState,
+    OpenBoxState,
+    SellPop_up_boxState,
+    SellState
+} from "../../jotai";
 import React, {Fragment, useEffect} from "react";
 import Link from "next/link";
 import {Dialog, Transition} from "@headlessui/react";
+import {ExclamationTriangleIcon, XMarkIcon} from "@heroicons/react/20/solid";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -150,4 +158,58 @@ const OpenBox = () =>{
         </>
     )
 }
-export {Pop_up_box,OpenBox}
+
+
+const ComingBox = () =>{
+    const [comingState,setComingState] = useAtom(ComingState)
+    return(
+        <div
+            id="Pop_up_box"
+            aria-live="assertive"
+            className="pointer-events-none z-50 fixed inset-0 top-12 flex items-end px-4 py-6 sm:items-start sm:p-6 "
+        >
+            <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
+                {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
+                <Transition
+                    show={comingState}
+                    as={Fragment}
+                    enter="transform ease-out duration-300 transition"
+                    enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                    enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg  ">
+                        <div className="p-4 bg-white">
+                            <div className="flex items-center ">
+                                <div className="flex-shrink-0">
+                                    <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                                </div>
+                                <div className="ml-3 w-0 flex-1 pt-0.5">
+                                    <p className="text-sm font-medium text-gray-900">Coming Soon!</p>
+                                    {/*<p className="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>*/}
+                                </div>
+                                <div className="ml-4 flex flex-shrink-0">
+                                    <button
+                                        type="button"
+                                        className="inline-flex rounded-md bg-white text-gray-400 "
+                                        onClick={() => {
+                                            setComingState(false)
+                                        }}
+                                    >
+                                        <span className="sr-only">Close</span>
+                                        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </Transition>
+            </div>
+        </div>
+    )
+
+}
+export {Pop_up_box,OpenBox,ComingBox}

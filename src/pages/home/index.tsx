@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import { Container } from '../../components/Container'
 import Footer from "../../components/Footer";
 import {useEffect, useState} from "react";
-import {OpenBox, Pop_up_box} from "../../components/pop_up_box";
+import {ComingBox, OpenBox, Pop_up_box} from "../../components/pop_up_box";
 import Heads from "../../components/head";
 import {InertiaTitle, Title, TweenTitle} from "../../components/Title";
 
@@ -11,6 +11,7 @@ const Hero = () =>{
         <>
             <OpenBox/>
             <Pop_up_box/>
+            <ComingBox/>
             <div className=" bg-black relative h-screen bg-repeat bg-center "  style={{backgroundImage:"url('/Background_map_of_official_website.gif')"}} >
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0B0B0B]" />
              <img className="absolute z-10 bottom-1/2 lg:bottom-24" src="LOGO.gif" alt=""/>

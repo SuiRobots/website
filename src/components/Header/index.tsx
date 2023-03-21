@@ -3,7 +3,7 @@ import {useCallback, useState} from "react";
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {ethos, EthosConnectStatus} from "ethos-connect";
-import {BoxImg, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
+import {BoxImg, ComingState, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
 import {useAtom} from "jotai";
 
 
@@ -45,44 +45,48 @@ const Mint = () =>{
     const [,setSellState] =useAtom(SellState)
     const [,setSellPop_up_boxState] = useAtom(SellPop_up_boxState)
     const [,setBoxImg] = useAtom(BoxImg)
+
+    const [comingState,setComingState] = useAtom(ComingState)
     const mint = useCallback(async () => {
-        setOpenLoading(true)
-        setOpenBoxLoading(false)
-        setBoxImg("")
-        if (!wallet) return
-        try {
-            const signableTransaction = {
-                kind: 'moveCall' as const,
-                data: {
-                    packageObjectId: contractAddress,
-                    module: 'devnet_nft',
-                    function: 'mint',
-                    typeArguments: [],
-                    arguments: [
-                        'Example NFT Name',
-                        'This is a description',
-                        'https://ethoswallet.xyz/assets/images/ethos-email-logo.png',
-                    ],
-                    gasBudget: 10000,
-                },
-            }
-            const result =   await wallet.signAndExecuteTransaction(signableTransaction)
-            const tx_status = result.effects.status.status;
-            if(tx_status == "success"){
-                setOpenBoxLoading(true)
-                setTimeout(
-                    ()=>{
-                        setBoxImg("/team/小丑.svg")
-                        setSellState({state:true,type:"Mint",hash: result.certificate.transactionDigest})
-                        setSellPop_up_boxState(true)
-                    }, 3500)
-            }
-        } catch (error) {
-            setSellState({state:false,type:"Mint",hash: ""})
-            setSellPop_up_boxState(true)
-            await setOpenLoading(false)
-            // console.log(error)
-        }
+        setComingState(true)
+
+        // setOpenLoading(true)
+        // setOpenBoxLoading(false)
+        // setBoxImg("")
+        // if (!wallet) return
+        // try {
+        //     const signableTransaction = {
+        //         kind: 'moveCall' as const,
+        //         data: {
+        //             packageObjectId: contractAddress,
+        //             module: 'devnet_nft',
+        //             function: 'mint',
+        //             typeArguments: [],
+        //             arguments: [
+        //                 'Example NFT Name',
+        //                 'This is a description',
+        //                 'https://ethoswallet.xyz/assets/images/ethos-email-logo.png',
+        //             ],
+        //             gasBudget: 10000,
+        //         },
+        //     }
+        //     const result =   await wallet.signAndExecuteTransaction(signableTransaction)
+        //     const tx_status = result.effects.status.status;
+        //     if(tx_status == "success"){
+        //         setOpenBoxLoading(true)
+        //         setTimeout(
+        //             ()=>{
+        //                 setBoxImg("/team/小丑.svg")
+        //                 setSellState({state:true,type:"Mint",hash: result.certificate.transactionDigest})
+        //                 setSellPop_up_boxState(true)
+        //             }, 3500)
+        //     }
+        // } catch (error) {
+        //     setSellState({state:false,type:"Mint",hash: ""})
+        //     setSellPop_up_boxState(true)
+        //     await setOpenLoading(false)
+        //     // console.log(error)
+        // }
 
     }, [wallet])
     return(

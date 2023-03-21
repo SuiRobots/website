@@ -14,4 +14,6 @@ const OpenBoxLoadingState = atom(false)
 
 const BoxImg = atom("")
 
-export {OpenBoxState,OpenBoxLoadingState,SellPop_up_boxState,SellState,BoxImg}
+const ComingState = atom(false)
+
+export {ComingState,OpenBoxState,OpenBoxLoadingState,SellPop_up_boxState,SellState,BoxImg}

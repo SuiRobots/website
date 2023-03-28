@@ -122,8 +122,8 @@ const  Header = () =>{
     const navigation = [
         {name:"STORY", href:"#story"},
         {name:"WORK", href:"#work"},
-        {name:"ROADMAP", href:"#roadmap"},
-        {name:"TEAM", href:"#team"},
+        // {name:"ROADMAP", href:"#roadmap"},
+        // {name:"TEAM", href:"#team"},
     ]
 
     if(typeof window !== "undefined"){

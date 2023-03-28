@@ -13,8 +13,8 @@ const Hero = () =>{
             <Pop_up_box/>
             <ComingBox/>
             <div className=" bg-black relative h-screen bg-repeat bg-center "  style={{backgroundImage:"url('/Background_map_of_official_website.gif')"}} >
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0B0B0B]" />
-             <img className="absolute z-10 bottom-1/2 lg:bottom-24" src="LOGO.gif" alt=""/>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0B0B0B]" />
+            <img className="absolute z-10 bottom-1/2 lg:bottom-24" src="LOGO.gif" alt=""/>
 
             </div>
         </>
@@ -31,18 +31,9 @@ const Story = () =>{
                         The birth of crazy robots
                     </div>
                     <div className="text-white mt-4">
-                            {/* eslint-disable-next-line react/no-unescaped-entities */}
-                        With the serious consumption of the earth's resources, the earth's biological system has
-                        gradually collapsed. The last group of high-quality living humans created a humanoid
-                        intelligent robot and transmitted their consciousness to the chip of the robot to replace
-                        {/* eslint-disable-next-line react/no-unescaped-entities */}
-                        them on the earth and restore the earth's environment and biological system, so as to be
-                        more suitable for human survival! So far, human beings flew to space on the newly developed
-                        D1H9 spacecraft. After humans leave, humanoid robots are orderly, spontaneous and organized
-                        {/* eslint-disable-next-line react/no-unescaped-entities */}
-                        to establish or restore the earth's ecology. They develop ecological technology on the earth,
-                        create a series of new plants, and plant them in polluted areas. After repeated failures,
-                        a robot made of gold finally created a kind of intelligent plant that can absorb pollutants......
+                        After centuries of development, AI has evolved into a superintelligence capable of knowing and doing everything, while humans have gradually lost their capacity for empathy and their desires have become numb and indifferent.
+                        In order to change this, humanity has united to launch a secret project.
+                        Some volunteers will serve as human pioneers and experimenters, abandoning their carbon-based lives to transition to silicon-based life in search of the ultimate solution to these problems.
                     </div>
                     </InertiaTitle>
                 </div>
@@ -83,7 +74,7 @@ const Work = () =>{
                 <div className="md:flex justify-between   ">
                     <div className="flex p-10 border-b md:border-b-0 md:border-r border-[#4F4F4F]">
                     <Title>
-                        <img className="w-48 h-24" src="/work/tokens.gif" alt=""/>
+                        <img className="w-64 xl:w-48 h-24" src="/work/tokens.gif" alt=""/>
                     </Title>
                         <div className="ml-10">
                         <Title>
@@ -101,7 +92,7 @@ const Work = () =>{
 
                     <div className="flex  p-10">
                     <Title>
-                        <img className="w-48 h-24" src="/work/vote.gif" alt=""/>
+                        <img className="w-64 xl:w-48 h-24" src="/work/vote.gif" alt=""/>
                 </Title>
                         <div className="ml-10">
                             <Title>
@@ -238,26 +229,26 @@ const Team = () =>{
 
                 </div>
             </div>
-            {/*<div className="flex justify-center mt-10">*/}
-            {/*<div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-x-24 md:gap-y-10">*/}
-            {/*    {teamList.map((item=>(*/}
-            {/*        <div key={item.img} className=" items-center text-white text-sm md:text-base text-center">*/}
-            {/*            <img className="w-full " src={item.img} alt=""/>*/}
-            {/*            <div className="text-[#F24544] font-semibold   mt-4" >*/}
-            {/*                {item.name}*/}
-            {/*            </div>*/}
-            {/*            <div>*/}
-            {/*                {item.position}*/}
-            {/*            </div>*/}
-            {/*            <div>*/}
-            {/*                {item.role}*/}
-            {/*            </div>*/}
+            <div className="flex justify-center mt-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-x-24 md:gap-y-10">
+                {teamList.map((item=>(
+                    <div key={item.img} className=" items-center text-white text-sm md:text-base text-center">
+                        <img className="w-full " src={item.img} alt=""/>
+                        <div className="text-[#F24544] font-semibold   mt-4" >
+                            {item.name}
+                        </div>
+                        <div>
+                            {item.position}
+                        </div>
+                        <div>
+                            {item.role}
+                        </div>
 
-            {/*        </div>*/}
-            {/*    )))}*/}
+                    </div>
+                )))}
 
-            {/*</div>*/}
-            {/*</div>*/}
+            </div>
+            </div>
         </div>
     )
 }
@@ -314,11 +305,11 @@ const Home = () =>{
 
                             <Work/>
 
-                            <TweenTitle>
-                            <Roadmap/>
-                                </TweenTitle>
+                            {/*<TweenTitle>*/}
+                            {/*<Roadmap/>*/}
+                            {/*    </TweenTitle>*/}
 
-                            <Team/>
+                            {/*<Team/>*/}
 
                         </Container>
                     </div>

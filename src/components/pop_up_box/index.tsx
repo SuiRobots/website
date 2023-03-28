@@ -182,7 +182,7 @@ const ComingBox = () =>{
                 >
                     <div className="pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg  ">
                         <div className="p-4 bg-white">
-                            <div className="flex items-center ">
+                            <div className="flex items-center">
                                 <div className="flex-shrink-0">
                                     <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
                                 </div>

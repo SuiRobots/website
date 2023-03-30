@@ -161,10 +161,31 @@ const OpenBox = () =>{
 
 
 const ComingBox = () =>{
+
+
     const [comingState,setComingState] = useAtom(ComingState)
+    let time
+    useEffect(()=>{
+        clearTimeout(time)
+        if(comingState){
+            time = setTimeout(()=>{
+                setComingState(false)
+            },6000)
+        }
+        const Pop_up_box = document.getElementById('ComingBox');
+        Pop_up_box.onmouseover = function(){
+            clearInterval(time);
+        }
+        Pop_up_box.onmouseout = function(){
+            time = setTimeout(()=>{
+                setComingState(false)
+
+            },3000)
+        }
+    },[comingState])
     return(
         <div
-            id="Pop_up_box"
+            id="ComingBox"
             aria-live="assertive"
             className="pointer-events-none z-50 fixed inset-0 top-12 flex items-end px-4 py-6 sm:items-start sm:p-6 "
         >

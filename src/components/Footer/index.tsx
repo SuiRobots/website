@@ -21,8 +21,8 @@ const Footer = () =>{
                 </div>
                 <div className="text-white text-center xl:mx-24 mt-10">
                     {/* eslint-disable-next-line react/no-unescaped-entities */}
-                    After humans leave, humanoid robots are orderly, spontaneous and organized to establish or restore the earth's ecology. They develop ecological technology on the earth, create a series of new plants, and plant them in polluted areas.
-                    After repeated failures, a robot made of gold finally created a kind of intelligent plant that can absorb pollutants......
+                    {/*After humans leave, humanoid robots are orderly, spontaneous and organized to establish or restore the earth's ecology. They develop ecological technology on the earth, create a series of new plants, and plant them in polluted areas.*/}
+                    {/*After repeated failures, a robot made of gold finally created a kind of intelligent plant that can absorb pollutants......*/}
                 </div>
             </Container>
             <div className="md:px-20 xl:px-32 p-5 flex flex-col text-center md:flex-row justify-between font-semibold text-white text-xs">

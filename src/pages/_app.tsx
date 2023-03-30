@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
       <EthosConnectProvider>
       <Component {...pageProps} />
-      </EthosConnectProvider>
+    </EthosConnectProvider>
   )
 }
 

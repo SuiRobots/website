@@ -67,10 +67,11 @@ const Mint = () =>{
         //                 'This is a description',
         //                 'https://ethoswallet.xyz/assets/images/ethos-email-logo.png',
         //             ],
+        //             // transactionBlock:{packageObjectId: "",gasBudget: 10000,},
         //             gasBudget: 10000,
         //         },
         //     }
-        //     const result =   await wallet.signAndExecuteTransaction(signableTransaction)
+        //     const result =   await wallet.signAndExecuteTransactionBlock(signableTransaction)
         //     const tx_status = result.effects.status.status;
         //     if(tx_status == "success"){
         //         setOpenBoxLoading(true)

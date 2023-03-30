@@ -16,7 +16,7 @@
   "dependencies": {
     "@react-spring/web": "^9.7.1",
     "clsx": "^1.2.1",
-    "ethos-connect": "^0.0.102",
+    "ethos-connect": "^0.0.107",
     "framer-motion": "^10.0.0",
     "jotai": "^1.10.0",
     "next": "^13.0.5",

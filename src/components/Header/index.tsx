@@ -69,7 +69,7 @@ const Mint = () =>{
                 [nft],
                 transactionBlock.pure(wallet.address, 'address')
             )
-            const result =   await wallet.signAndExecuteTransactionBlock({
+            const result = await wallet.signAndExecuteTransactionBlock({
                 transactionBlock,
                 options: {
                     showInput: true,
@@ -80,23 +80,29 @@ const Mint = () =>{
                 }
             });
             const tx_status = result.effects.status.status;
-            const txn = await provider.getObject({
-                id: result.effects.created[0].reference.objectId,
-                options: {
-                    showContent: true,
-                    showDisplay: true,
-                },
-            });
-            const img_url = txn.data.display.image_url
-            if(tx_status == "success"){
-                setOpenBoxLoading(true)
 
+            if(tx_status == "success"){
                 setTimeout(
-                    ()=>{
-                        setBoxImg(img_url)
-                        setSellState({state:true,type:"Mint",hash: result.effects.transactionDigest})
-                        setSellPop_up_boxState(true)
-                    }, 3500)
+                    async () => {
+                        const txn = await provider.getObject({
+                            id: result.effects.created[0].reference.objectId,
+                            options: {
+                                showContent: true,
+                                showDisplay: true,
+                            },
+                        });
+                        console.log(txn)
+                        const img_url = txn.data.display.image_url
+                        setOpenBoxLoading(true)
+                        setTimeout(
+                            async () => {
+                                setBoxImg(img_url)
+                                setSellState({state: true, type: "Mint", hash: result.effects.transactionDigest})
+                                setSellPop_up_boxState(true)
+                            }, 3500)
+                    }, 3000)
+
+
             }
         } catch (error) {
             setSellState({state:false,type:"Mint",hash: ""})

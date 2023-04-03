@@ -14,14 +14,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mysten/sui.js": "^0.30.0",
     "@react-spring/web": "^9.7.1",
     "clsx": "^1.2.1",
-    "ethos-connect": "^0.0.107",
+    "ethos-connect": "^0.0.119",
     "framer-motion": "^10.0.0",
     "jotai": "^1.10.0",
     "next": "^13.0.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sui": "^1.0.0"
   },
   "devDependencies": {
     "@headlessui/react": "^1.7.4",

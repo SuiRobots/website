@@ -2,9 +2,10 @@ import Link from "next/link";
 import {useCallback, useState} from "react";
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import {ethos, EthosConnectStatus} from "ethos-connect";
+import {ethos, EthosConnectStatus, TransactionBlock} from "ethos-connect";
 import {BoxImg, ComingState, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
 import {useAtom} from "jotai";
+import {JsonRpcProvider} from "@mysten/sui.js";
 
 
 function classNames(...classes) {
@@ -39,55 +40,71 @@ function ChevronUpIcon(props) {
 
 const Mint = () =>{
     const { wallet,status } = ethos.useWallet()
-    const contractAddress = '0x0000000000000000000000000000000000000002'
+    const contractAddress = '0x1cbfdf7de5004f887705fa53bb345d4372e5004bd8b04a6f8868f5e1ca1af9c7'
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)
     const [,setSellPop_up_boxState] = useAtom(SellPop_up_boxState)
     const [,setBoxImg] = useAtom(BoxImg)
-
+    const provider = new JsonRpcProvider();
     const [comingState,setComingState] = useAtom(ComingState)
     const mint = useCallback(async () => {
-        setComingState(true)
+        // setComingState(true)
 
-        // setOpenLoading(true)
-        // setOpenBoxLoading(false)
-        // setBoxImg("")
-        // if (!wallet) return
-        // try {
-        //     const signableTransaction = {
-        //         kind: 'moveCall' as const,
-        //         data: {
-        //             packageObjectId: contractAddress,
-        //             module: 'devnet_nft',
-        //             function: 'mint',
-        //             typeArguments: [],
-        //             arguments: [
-        //                 'Example NFT Name',
-        //                 'This is a description',
-        //                 'https://ethoswallet.xyz/assets/images/ethos-email-logo.png',
-        //             ],
-        //             // transactionBlock:{packageObjectId: "",gasBudget: 10000,},
-        //             gasBudget: 10000,
-        //         },
-        //     }
-        //     const result =   await wallet.signAndExecuteTransactionBlock(signableTransaction)
-        //     const tx_status = result.effects.status.status;
-        //     if(tx_status == "success"){
-        //         setOpenBoxLoading(true)
-        //         setTimeout(
-        //             ()=>{
-        //                 setBoxImg("/team/小丑.svg")
-        //                 setSellState({state:true,type:"Mint",hash: result.certificate.transactionDigest})
-        //                 setSellPop_up_boxState(true)
-        //             }, 3500)
-        //     }
-        // } catch (error) {
-        //     setSellState({state:false,type:"Mint",hash: ""})
-        //     setSellPop_up_boxState(true)
-        //     await setOpenLoading(false)
-        //     // console.log(error)
-        // }
+        setOpenLoading(true)
+        setOpenBoxLoading(false)
+        setBoxImg("")
+        if (!wallet) return
+        try {
+            const transactionBlock = new TransactionBlock();
+            const nft = transactionBlock.moveCall({
+                target: `${contractAddress}::ethos_example_nft::mint`,
+                arguments: [
+                    transactionBlock.pure("SuiRobot Example NFT"),
+                    transactionBlock.pure("A sample NFT from SuiRobot."),
+                    transactionBlock.pure("https://cdn.discordapp.com/attachments/897398778166906911/1092369232391569458/91.gif")
+                ]
+            })
+            transactionBlock.transferObjects(
+                [nft],
+                transactionBlock.pure(wallet.address, 'address')
+            )
+            const result =   await wallet.signAndExecuteTransactionBlock({
+                transactionBlock,
+                options: {
+                    showInput: true,
+                    showEffects: true,
+                    showEvents: true,
+                    showBalanceChanges: true,
+                    showObjectChanges: true,
+                }
+            });
+            const tx_status = result.effects.status.status;
+            const txn = await provider.getObject({
+                id: result.effects.created[0].reference.objectId,
+                options: {
+                    showContent: true,
+                    showDisplay: true,
+                },
+            });
+            const img_url = txn.data.display.image_url
+            if(tx_status == "success"){
+                setOpenBoxLoading(true)
+
+                setTimeout(
+                    ()=>{
+                        setBoxImg(img_url)
+                        setSellState({state:true,type:"Mint",hash: result.effects.transactionDigest})
+                        setSellPop_up_boxState(true)
+                    }, 3500)
+            }
+        } catch (error) {
+            setSellState({state:false,type:"Mint",hash: ""})
+            setSellPop_up_boxState(true)
+            await setOpenLoading(false)
+            // console.log(error)
+        }
+
 
     }, [wallet])
     return(
@@ -108,6 +125,7 @@ const Mint = () =>{
                             <button onClick={mint}>
                                 <img className="w-24 z-20 relative" src="mint.png" alt=""/>
                             </button>
+
                         )}
                     </div>
                 </div>
@@ -153,10 +171,6 @@ const  Header = () =>{
        })
 
    }
-
-
-
-
     return (
         <div className={classNames(scroll?'p-3 backdrop-blur-sm bg-[#2E2E2E]/80':"py-4","flex  fixed z-40 inset-x-0 p-2 px-5 w-full justify-between xl:px-20 transition-all duration-700 ease-in-out mx-auto items-center items-center")}>
             <div className={"relative z-10 items-center flex"}>
@@ -239,6 +253,7 @@ const  Header = () =>{
                 <div className="hidden lg:flex gap-4 items-center">
                   <Mint/>
                     <ethos.components.AddressWidget/>
+
                     <Link href="https://discord.gg/ceETxS2eTa" legacyBehavior>
                         <a target="_blank">
                         <img className="w-6 " src="discord 1.svg" alt=""/>

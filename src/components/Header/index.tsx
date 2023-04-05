@@ -6,6 +6,8 @@ import {ethos, EthosConnectStatus, TransactionBlock} from "ethos-connect";
 import {BoxImg, ComingState, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
 import {useAtom} from "jotai";
 import {JsonRpcProvider} from "@mysten/sui.js";
+import axios from "axios";
+
 
 
 function classNames(...classes) {
@@ -40,7 +42,8 @@ function ChevronUpIcon(props) {
 
 const Mint = () =>{
     const { wallet,status } = ethos.useWallet()
-    const contractAddress = '0x1cbfdf7de5004f887705fa53bb345d4372e5004bd8b04a6f8868f5e1ca1af9c7'
+    const contractAddress = '0xc33cfbc8f3699bb464a9bb642dbe7a77d20cf574af9d88f76bf268936d43c64e'
+    const objectId = "0x09383a4773f6f4580942101ab4b1d91aca6e3207e16bafc881c6d412fcfbf9ab"
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)
@@ -51,41 +54,61 @@ const Mint = () =>{
     const mint = useCallback(async () => {
         // setComingState(true)
 
-        setOpenLoading(true)
-        setOpenBoxLoading(false)
-        setBoxImg("")
+        // setOpenLoading(true)
+        // setOpenBoxLoading(false)
+        // setBoxImg("")
+
+        const transactionBlock = new TransactionBlock();
+        console.log('xxx',transactionBlock.makeMoveVec({objects:[
+                transactionBlock.pure('0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6'),
+                transactionBlock.pure("0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e"),
+                transactionBlock.pure('0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c')
+            ]}))
+        const proofData =  await axios.post("http://127.0.0.1:3000/api/get_proof",{
+            leafAddress:wallet.address
+        })
+        console.log(proofData.data.data)
+
         if (!wallet) return
         try {
             const transactionBlock = new TransactionBlock();
-            const nft = transactionBlock.moveCall({
-                target: `${contractAddress}::ethos_example_nft::mint`,
+            console.log()
+            transactionBlock.setGasBudget(100000000)
+            transactionBlock.moveCall({
+                target: `${contractAddress}::robots_nft::whitelist_mint`,
                 arguments: [
-                    transactionBlock.pure("SuiRobot Example NFT"),
-                    transactionBlock.pure("A sample NFT from SuiRobot."),
-                    transactionBlock.pure("https://cdn.discordapp.com/attachments/897398778166906911/1092369232391569458/91.gif")
-                ]
+                    transactionBlock.pure(objectId),
+                    transactionBlock.makeMoveVec({objects:[
+                            transactionBlock.pure('0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6'),
+                            transactionBlock.pure("0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e"),
+                            transactionBlock.pure('0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c')
+                        ]})
+                    // transactionBlock.pure([
+                    //     '0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6',
+                    //     '0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e',
+                    //     '0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c'
+                    // ],'Vector<Vector<U8>>')
+                //     transactionBlock.pure([
+                //             transactionBlock.pure('0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6','address'),
+                //             transactionBlock.pure('0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e',"address"),
+                //             transactionBlock.pure('0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c',"address")])
+                ],
             })
-            transactionBlock.transferObjects(
-                [nft],
-                transactionBlock.pure(wallet.address, 'address')
-            )
-            const result = await wallet.signAndExecuteTransactionBlock({
+
+            const response = await wallet.signAndExecuteTransactionBlock({
                 transactionBlock,
                 options: {
-                    showInput: true,
-                    showEffects: true,
-                    showEvents: true,
-                    showBalanceChanges: true,
                     showObjectChanges: true,
                 }
             });
-            const tx_status = result.effects.status.status;
+            console.log(response)
+            // const tx_status = response.effects.status.status;
 
-            if(tx_status == "success"){
+            if(response.digest == "success"){
                 setTimeout(
                     async () => {
                         const txn = await provider.getObject({
-                            id: result.effects.created[0].reference.objectId,
+                            id: response.effects.created[0].reference.objectId,
                             options: {
                                 showContent: true,
                                 showDisplay: true,
@@ -97,10 +120,10 @@ const Mint = () =>{
                         setTimeout(
                             async () => {
                                 setBoxImg(img_url)
-                                setSellState({state: true, type: "Mint", hash: result.effects.transactionDigest})
+                                setSellState({state: true, type: "Mint", hash: response.effects.transactionDigest})
                                 setSellPop_up_boxState(true)
                             }, 3500)
-                    }, 3000)
+                    }, 2000)
 
 
             }
@@ -108,7 +131,8 @@ const Mint = () =>{
             setSellState({state:false,type:"Mint",hash: ""})
             setSellPop_up_boxState(true)
             await setOpenLoading(false)
-            // console.log(error)
+
+            console.log(error)
         }
 
 

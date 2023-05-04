@@ -8,8 +8,6 @@ import {useAtom} from "jotai";
 import {JsonRpcProvider} from "@mysten/sui.js";
 import axios from "axios";
 
-
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -42,8 +40,8 @@ function ChevronUpIcon(props) {
 
 const Mint = () =>{
     const { wallet,status } = ethos.useWallet()
-    const contractAddress = '0xc33cfbc8f3699bb464a9bb642dbe7a77d20cf574af9d88f76bf268936d43c64e'
-    const objectId = "0x09383a4773f6f4580942101ab4b1d91aca6e3207e16bafc881c6d412fcfbf9ab"
+    const contractAddress = '0x93b4b0700c46fc5f800769ef064bf5308bae556278146a9ddb81ef76dc047004'
+    const objectId = "0x1260b06e1a0df020f84d24d06572ba08288091e0f1fc8c285fd074259d75735e"
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)
@@ -54,44 +52,28 @@ const Mint = () =>{
     const mint = useCallback(async () => {
         // setComingState(true)
 
-        // setOpenLoading(true)
-        // setOpenBoxLoading(false)
-        // setBoxImg("")
-
-        const transactionBlock = new TransactionBlock();
-        console.log('xxx',transactionBlock.makeMoveVec({objects:[
-                transactionBlock.pure('0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6'),
-                transactionBlock.pure("0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e"),
-                transactionBlock.pure('0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c')
-            ]}))
+        setOpenLoading(true)
+        setOpenBoxLoading(false)
+        setBoxImg("")
         const proofData =  await axios.post("http://127.0.0.1:3000/api/get_proof",{
             leafAddress:wallet.address
         })
-        console.log(proofData.data.data)
-
+        console.log("",(new Uint8Array(Buffer.from(proofData.data.data[2].slice(2), 'hex'))))
         if (!wallet) return
         try {
             const transactionBlock = new TransactionBlock();
-            console.log()
-            transactionBlock.setGasBudget(100000000)
+            transactionBlock.setGasBudget(200000000)
+            const input_price = transactionBlock.splitCoins(
+                transactionBlock.gas,
+                [transactionBlock.pure(100000000)]
+            )
             transactionBlock.moveCall({
                 target: `${contractAddress}::robots_nft::whitelist_mint`,
                 arguments: [
                     transactionBlock.pure(objectId),
-                    transactionBlock.makeMoveVec({objects:[
-                            transactionBlock.pure('0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6'),
-                            transactionBlock.pure("0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e"),
-                            transactionBlock.pure('0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c')
-                        ]})
-                    // transactionBlock.pure([
-                    //     '0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6',
-                    //     '0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e',
-                    //     '0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c'
-                    // ],'Vector<Vector<U8>>')
-                //     transactionBlock.pure([
-                //             transactionBlock.pure('0x503f86acc85eb72e20f9ce63f633a8d361c6b191d9920bb367d17f1ba9378bf6','address'),
-                //             transactionBlock.pure('0x49ee44f940abf4de4777a5f684d6c7b512e7e07c5bbc788a884ff889a40e345e',"address"),
-                //             transactionBlock.pure('0x8831761a7d7c3f81996123ac53d4e167ce6883d02f569c04468724cb7f513f6c',"address")])
+                    input_price[0],
+                    transactionBlock.pure(
+                        proofData.data.data.map(data=> Array.from(new Uint8Array(Buffer.from(data.slice(2), 'hex')))))
                 ],
             })
 
@@ -104,23 +86,25 @@ const Mint = () =>{
             console.log(response)
             // const tx_status = response.effects.status.status;
 
-            if(response.digest == "success"){
+            if(response.confirmedLocalExecution){
                 setTimeout(
                     async () => {
                         const txn = await provider.getObject({
-                            id: response.effects.created[0].reference.objectId,
+                            // @ts-ignore
+                            id: response.objectChanges[2].objectId,
                             options: {
                                 showContent: true,
                                 showDisplay: true,
                             },
                         });
-                        console.log(txn)
-                        const img_url = txn.data.display.image_url
+                        console.log(txn,"sss")
+                        // @ts-ignore
+                        const img_url = txn.data.content.fields.url
                         setOpenBoxLoading(true)
                         setTimeout(
                             async () => {
                                 setBoxImg(img_url)
-                                setSellState({state: true, type: "Mint", hash: response.effects.transactionDigest})
+                                setSellState({state: true, type: "Mint", hash: response.digest})
                                 setSellPop_up_boxState(true)
                             }, 3500)
                     }, 2000)
@@ -165,8 +149,6 @@ const Mint = () =>{
 }
 
 const  Header = () =>{
-
-
     const [scroll,setScroll]=useState(false)
     const navigation = [
         {name:"STORY", href:"#story"},

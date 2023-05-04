@@ -40,8 +40,8 @@ function ChevronUpIcon(props) {
 
 const Mint = () =>{
     const { wallet,status } = ethos.useWallet()
-    const contractAddress = '0xc78a593fd9bd987de9ef7c0d772611fdb1aa8e76ef3730c827f339250e42079d'
-    const objectId = "0xc8ea2f8a9e2a10a35a658416dde1f860473736d9bc5fd15d2a91a181138f7b09"
+    const contractAddress = '0x918171365f9dc328b839f63488c56015457c63dcce1cc77f0405feb713d6eb81'
+    const objectId = "0x98e8af2225654e45118b8df4aa7ceedba4a4af184dbb6db612cfa0c1903b8fb1"
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)
@@ -55,10 +55,10 @@ const Mint = () =>{
         setOpenLoading(true)
         setOpenBoxLoading(false)
         setBoxImg("")
-        const proofData =  await axios.post("http://127.0.0.1:3000/api/get_proof",{
+        const proofData =  await axios.post("https://merkle-backend-production.up.railway.app/api/get_proof",{
             leafAddress:wallet.address
         })
-        console.log("",(new Uint8Array(Buffer.from(proofData.data.data[2].slice(2), 'hex'))))
+
         if (!wallet) return
         try {
             const transactionBlock = new TransactionBlock();
@@ -66,6 +66,7 @@ const Mint = () =>{
             const input_price = transactionBlock.splitCoins(
                 transactionBlock.gas,
                 [transactionBlock.pure(100000000)]
+            //    00000
             )
             transactionBlock.moveCall({
                 target: `${contractAddress}::robots_nft::whitelist_mint`,

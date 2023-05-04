@@ -69,7 +69,7 @@ const Pop_up_box = () =>{
                                         "text-sm font-medium ")}>{pop_up_boxData.type} {classNames(pop_up_boxData.state?"success":"fail")}</p>
                                     <p className={pop_up_boxData.state?"hidden":"mt-1 text-red-800 font-black"}>Please try again</p>
                                     <div className={pop_up_boxData.hash == ""? "hidden":""}>
-                                        <Link legacyBehavior href={`https://explorer.sui.io/transaction/${pop_up_boxData.hash}?network=devnet` } target="_Blank">
+                                        <Link legacyBehavior href={`https://explorer.sui.io/transaction/${pop_up_boxData.hash}?network=https%3A%2F%2Fwallet-rpc.devnet.sui.io%2F` } target="_Blank">
                                             <a className={classNames(pop_up_boxData.state?
                                                     "bg-green-50 text-green-500 hover:bg-green-100"
                                                     :

@@ -40,8 +40,8 @@ function ChevronUpIcon(props) {
 
 const Mint = () =>{
     const { wallet,status } = ethos.useWallet()
-    const contractAddress = '0x93b4b0700c46fc5f800769ef064bf5308bae556278146a9ddb81ef76dc047004'
-    const objectId = "0x1260b06e1a0df020f84d24d06572ba08288091e0f1fc8c285fd074259d75735e"
+    const contractAddress = '0xc78a593fd9bd987de9ef7c0d772611fdb1aa8e76ef3730c827f339250e42079d'
+    const objectId = "0xc8ea2f8a9e2a10a35a658416dde1f860473736d9bc5fd15d2a91a181138f7b09"
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)
@@ -99,7 +99,7 @@ const Mint = () =>{
                         });
                         console.log(txn,"sss")
                         // @ts-ignore
-                        const img_url = txn.data.content.fields.url
+                        const img_url = txn.data.content.fields.image_url
                         setOpenBoxLoading(true)
                         setTimeout(
                             async () => {

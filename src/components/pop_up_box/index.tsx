@@ -140,8 +140,9 @@ const OpenBox = () =>{
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
                                 <Dialog.Panel className="">
-                                    <div className={boxImg==""?"":"hidden"}>
-                                        <img className={openBoxLoading?"w-97":"w-72 mt-14"} src={openBoxLoading?"/openBoxLoading.gif":"/loading.gif"} alt=""/>
+                                    <div className={boxImg==""?"flex justify-center items-center mt-14":"hidden"}>
+                                        <img className={openBoxLoading?"hidden":"w-48 h-48 mt-9"} src="/loading.gif" alt=""/>
+                                        <img className={openBoxLoading?"w-76 h-76":"hidden"} src="/openBoxLoading.gif" alt=""/>
                                     </div>
                                     <img className={boxImg==""?"hidden":"w-72 mt-14"} src={boxImg} alt=""/>
                                     <div>
@@ -208,7 +209,8 @@ const ComingBox = () =>{
                                     <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
                                 </div>
                                 <div className="ml-3 w-0 flex-1 pt-0.5">
-                                    <p className="text-sm font-medium text-gray-900">Coming Soon!</p>
+                                    <p className="text-sm font-medium text-gray-900">You are not whitelisted
+                                    </p>
                                     {/*<p className="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>*/}
                                 </div>
                                 <div className="ml-4 flex flex-shrink-0">

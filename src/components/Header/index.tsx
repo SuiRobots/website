@@ -42,6 +42,8 @@ const Mint = () =>{
     const { wallet,status } = ethos.useWallet()
     const contractAddress = '0x918171365f9dc328b839f63488c56015457c63dcce1cc77f0405feb713d6eb81'
     const objectId = "0x98e8af2225654e45118b8df4aa7ceedba4a4af184dbb6db612cfa0c1903b8fb1"
+    const href = "https://merkle-backend-production.up.railway.app/api/get_proof"
+    // const href = "http://localhost:3000/api/get_proof"
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)
@@ -51,74 +53,79 @@ const Mint = () =>{
     const [comingState,setComingState] = useAtom(ComingState)
     const mint = useCallback(async () => {
         // setComingState(true)
-
         setOpenLoading(true)
         setOpenBoxLoading(false)
         setBoxImg("")
-        const proofData =  await axios.post("https://merkle-backend-production.up.railway.app/api/get_proof",{
+        const proofData =  await axios.post(href,{
             leafAddress:wallet.address
         })
+        if(proofData.data.data.length==0){
+            setComingState(true)
+            setOpenLoading(false)
+        }else {
+            if (!wallet) return
+            try {
+                const transactionBlock = new TransactionBlock();
+                transactionBlock.setGasBudget(200000000)
+                const input_price = transactionBlock.splitCoins(
+                    transactionBlock.gas,
+                    [transactionBlock.pure(100000000)]
+                    //    00000
+                )
+                transactionBlock.moveCall({
+                    target: `${contractAddress}::robots_nft::whitelist_mint`,
+                    arguments: [
+                        transactionBlock.pure(objectId),
+                        input_price[0],
+                        transactionBlock.pure(
+                            proofData.data.data.map(data=> Array.from(new Uint8Array(Buffer.from(data.slice(2), 'hex')))))
+                    ],
+                })
 
-        if (!wallet) return
-        try {
-            const transactionBlock = new TransactionBlock();
-            transactionBlock.setGasBudget(200000000)
-            const input_price = transactionBlock.splitCoins(
-                transactionBlock.gas,
-                [transactionBlock.pure(100000000)]
-            //    00000
-            )
-            transactionBlock.moveCall({
-                target: `${contractAddress}::robots_nft::whitelist_mint`,
-                arguments: [
-                    transactionBlock.pure(objectId),
-                    input_price[0],
-                    transactionBlock.pure(
-                        proofData.data.data.map(data=> Array.from(new Uint8Array(Buffer.from(data.slice(2), 'hex')))))
-                ],
-            })
+                const response = await wallet.signAndExecuteTransactionBlock({
+                    transactionBlock,
+                    options: {
+                        showObjectChanges: true,
+                    }
+                });
 
-            const response = await wallet.signAndExecuteTransactionBlock({
-                transactionBlock,
-                options: {
-                    showObjectChanges: true,
-                }
-            });
-            console.log(response)
-            // const tx_status = response.effects.status.status;
+                if(response.objectChanges[2]){
+                    setTimeout(
+                        async () => {
+                            const txn = await provider.getObject({
+                                // @ts-ignore
+                                id: response.objectChanges[2].objectId,
+                                options: {
+                                    showContent: true,
+                                    showDisplay: true,
+                                },
+                            });
 
-            if(response.confirmedLocalExecution){
-                setTimeout(
-                    async () => {
-                        const txn = await provider.getObject({
                             // @ts-ignore
-                            id: response.objectChanges[2].objectId,
-                            options: {
-                                showContent: true,
-                                showDisplay: true,
-                            },
-                        });
-                        console.log(txn,"sss")
-                        // @ts-ignore
-                        const img_url = txn.data.content.fields.image_url
-                        setOpenBoxLoading(true)
-                        setTimeout(
-                            async () => {
-                                setBoxImg(img_url)
-                                setSellState({state: true, type: "Mint", hash: response.digest})
-                                setSellPop_up_boxState(true)
-                            }, 3500)
-                    }, 2000)
+                            const img_url = txn.data.content.fields.image_url
+                            setOpenBoxLoading(true)
+                            setTimeout(
+                                async () => {
+                                    setBoxImg(img_url)
+                                    setSellState({state: true, type: "Mint", hash: response.digest})
+                                    setSellPop_up_boxState(true)
+                                }, 3500)
+                        }, 2000)
+                }else {
+                    setSellState({state:false,type:"Mint",hash: ""})
+                    setSellPop_up_boxState(true)
+                    await setOpenLoading(false)
+                }
+            } catch (error) {
+                setSellState({state:false,type:"Mint",hash: ""})
+                setSellPop_up_boxState(true)
+                await setOpenLoading(false)
 
-
+                console.log(error)
             }
-        } catch (error) {
-            setSellState({state:false,type:"Mint",hash: ""})
-            setSellPop_up_boxState(true)
-            await setOpenLoading(false)
-
-            console.log(error)
         }
+
+
 
 
     }, [wallet])
@@ -138,7 +145,7 @@ const Mint = () =>{
                         ) : (
                             // status is EthosConnectStatus.Connected
                             <button onClick={mint}>
-                                <img className="w-24 z-20 relative" src="mint.png" alt=""/>
+                                <img className="w-24 px-1 z-20 relative" src="mint.png" alt=""/>
                             </button>
 
                         )}

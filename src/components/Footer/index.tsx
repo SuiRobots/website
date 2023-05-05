@@ -34,9 +34,9 @@ const Footer = () =>{
                         BY SUIPOBOTS
                     </div>
                 </div>
-                <div className="text-[#FFEA68] underline decoration-[#FFEA68] py-3 md:py-0">
-                    TERMS & CONDITIONS
-                </div>
+                {/*<div className="text-[#FFEA68] underline decoration-[#FFEA68] py-3 md:py-0">*/}
+                {/*    TERMS & CONDITIONS*/}
+                {/*</div>*/}
                 <div className="flex items-center justify-center">
                     ©️ 2023 SUIROBOTS
                 </div>

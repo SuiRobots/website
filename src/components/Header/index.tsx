@@ -52,7 +52,6 @@ const Mint = () =>{
     const provider = new JsonRpcProvider();
     const [comingState,setComingState] = useAtom(ComingState)
     const mint = useCallback(async () => {
-        // setComingState(true)
         setOpenLoading(true)
         setOpenBoxLoading(false)
         setBoxImg("")

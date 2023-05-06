@@ -2,11 +2,13 @@ import Link from "next/link";
 import {useCallback, useState} from "react";
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import {ethos, EthosConnectStatus, TransactionBlock} from "ethos-connect";
+// import {ethos, EthosConnectStatus, TransactionBlock} from "ethos-connect";
 import {BoxImg, ComingState, OpenBoxLoadingState, OpenBoxState, SellPop_up_boxState, SellState} from "../../jotai";
 import {useAtom} from "jotai";
-import {JsonRpcProvider} from "@mysten/sui.js";
+import {JsonRpcProvider, TransactionBlock} from "@mysten/sui.js";
 import axios from "axios";
+import {ConnectButton, useWallet} from "@suiet/wallet-kit";
+import * as React from "react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -39,7 +41,8 @@ function ChevronUpIcon(props) {
 }
 
 const Mint = () =>{
-    const { wallet,status } = ethos.useWallet()
+    // const { wallet,status } = ethos.useWallet()
+    const wallet = useWallet();
     const contractAddress = '0x918171365f9dc328b839f63488c56015457c63dcce1cc77f0405feb713d6eb81'
     const objectId = "0x98e8af2225654e45118b8df4aa7ceedba4a4af184dbb6db612cfa0c1903b8fb1"
     const href = "https://merkle-backend-production.up.railway.app/api/get_proof"
@@ -123,31 +126,33 @@ const Mint = () =>{
                 console.log(error)
             }
         }
-
-
-
-
     }, [wallet])
     return(
         <>
             <div className=" items-center">
                 <div className=" flex justify-center  " >
                     <div className="flex justify-center">
-                        {status === EthosConnectStatus.Loading ? (
-                            <div className="text-white"></div>
-                        ) : status === EthosConnectStatus.NoConnection ? (
+                        {wallet.connected ?
+                            <button onClick={mint}>
+                            <img className="w-24 px-1 z-20 relative" src="mint.png" alt=""/>
+                        </button>
+                            :
                             <div>
 
-                            </div>
-                            // <button onClick={ethos.showSignInModal}>
-                            //     <img className="w-24 z-20 relative" src="connect.png" alt=""/></button>
-                        ) : (
-                            // status is EthosConnectStatus.Connected
-                            <button onClick={mint}>
-                                <img className="w-24 px-1 z-20 relative" src="mint.png" alt=""/>
-                            </button>
+                            </div>}
+                        {/*{status === EthosConnectStatus.Loading ? (*/}
+                        {/*    <div className="text-white"></div>*/}
+                        {/*) : status === EthosConnectStatus.NoConnection ? (*/}
+                        {/*    <div>*/}
 
-                        )}
+                        {/*    </div>*/}
+                        {/*    // <button onClick={ethos.showSignInModal}>*/}
+                        {/*    //     <img className="w-24 z-20 relative" src="connect.png" alt=""/></button>*/}
+                        {/*) : (*/}
+                        {/*    // status is EthosConnectStatus.Connected*/}
+                        {/*  */}
+
+                        {/*)}*/}
                     </div>
                 </div>
             </div>
@@ -271,8 +276,8 @@ const  Header = () =>{
 
                 <div className="hidden lg:flex gap-4 items-center">
                   <Mint/>
-                    <ethos.components.AddressWidget/>
-
+                    {/*<ethos.components.AddressWidget/>*/}
+                    <ConnectButton />
                     <Link href="https://discord.gg/ceETxS2eTa" legacyBehavior>
                         <a target="_blank">
                         <img className="w-6 " src="discord 1.svg" alt=""/>

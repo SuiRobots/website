@@ -37,8 +37,7 @@ const Story = () =>{
                     </div>
                     </InertiaTitle>
                 </div>
-
-                    <img className="md:w-7/12" src="/story_robots.gif" alt=""/>
+                    <img className="md:w-7/12 mt-48 lg:mt-0" src="/story_robots.gif" alt=""/>
 
             </div>
         </div>

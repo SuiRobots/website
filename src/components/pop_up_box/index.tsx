@@ -209,7 +209,7 @@ const ComingBox = () =>{
                                     <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
                                 </div>
                                 <div className="ml-3 w-0 flex-1 pt-0.5">
-                                    <p className="text-sm font-medium text-gray-900">You are not whitelisted
+                                    <p className="text-sm font-medium text-gray-900">Time {"hasn't"} started yet
                                     </p>
                                     {/*<p className="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>*/}
                                 </div>

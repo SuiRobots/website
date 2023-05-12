@@ -43,8 +43,8 @@ function ChevronUpIcon(props) {
 const Mint = () =>{
     // const { wallet,status } = ethos.useWallet()
     const wallet = useWallet();
-    const contractAddress = '0x918171365f9dc328b839f63488c56015457c63dcce1cc77f0405feb713d6eb81'
-    const objectId = "0x98e8af2225654e45118b8df4aa7ceedba4a4af184dbb6db612cfa0c1903b8fb1"
+    const contractAddress = '0x76d0976df27d6bc804a0350dd08743e496b715b089ee9e89d267abc5fb130ac1'
+    const objectId = "0xe804a4b52127095a42441d6fa19e67e60ef25614daff92017daeaa4c45cf13bb"
     const href = "https://merkle-backend-production.up.railway.app/api/get_proof"
     // const href = "http://localhost:3000/api/get_proof"
     const [,setOpenLoading] =useAtom(OpenBoxState)
@@ -54,6 +54,68 @@ const Mint = () =>{
     const [,setBoxImg] = useAtom(BoxImg)
     const provider = new JsonRpcProvider();
     const [comingState,setComingState] = useAtom(ComingState)
+
+    const  functionMint = async (proofData) => {
+        try {
+            const transactionBlock = new TransactionBlock();
+            const clock = "0x6"
+            transactionBlock.setGasBudget(200000000)
+            const input_price = transactionBlock.splitCoins(
+                transactionBlock.gas,
+                [transactionBlock.pure(10000000)]
+            )
+            transactionBlock.moveCall({
+                target: `${contractAddress}::robots_nft::mint`,
+                arguments: [
+                    transactionBlock.object(clock),
+                    transactionBlock.pure(objectId),
+                    input_price[0],
+                    transactionBlock.pure(
+                    proofData.map(data => Array.from(new Uint8Array(Buffer.from(data.slice(2), 'hex')))))
+                ],
+            })
+
+            const response = await wallet.signAndExecuteTransactionBlock({
+                transactionBlock,
+                options: {
+                    showObjectChanges: true,
+                }
+            });
+
+            if (response.objectChanges[2]) {
+                setTimeout(
+                    async () => {
+                        const txn = await provider.getObject({
+                            // @ts-ignore
+                            id: response.objectChanges[2].objectId,
+                            options: {
+                                showContent: true,
+                                showDisplay: true,
+                            },
+                        });
+
+                        // @ts-ignore
+                        const img_url = txn.data.content.fields.image_url
+                        setOpenBoxLoading(true)
+                        setTimeout(
+                            async () => {
+                                setBoxImg(img_url)
+                                setSellState({state: true, type: "Mint", hash: response.digest})
+                                setSellPop_up_boxState(true)
+                            }, 3500)
+                    }, 2000)
+            } else {
+                setSellState({state: false, type: "Mint", hash: ""})
+                setSellPop_up_boxState(true)
+                await setOpenLoading(false)
+            }
+        } catch (error) {
+            setSellState({state: false, type: "Mint", hash: ""})
+            setSellPop_up_boxState(true)
+            await setOpenLoading(false)
+            console.log(error)
+        }
+    }
     const mint = useCallback(async () => {
         setOpenLoading(true)
         setOpenBoxLoading(false)
@@ -61,69 +123,36 @@ const Mint = () =>{
         const proofData =  await axios.post(href,{
             leafAddress:wallet.address
         })
-        if(proofData.data.data.length==0){
-            setComingState(true)
-            setOpenLoading(false)
+        const txn = await provider.getObject({
+            id: objectId,
+            options: {
+                showContent: true,
+                showDisplay: true,
+            },
+        });
+        let currentTimestamp = Date.now()
+        // @ts-ignore
+        const duration = Number(txn.data.content.fields.duration)
+        // @ts-ignore
+        const start_time = Number(txn.data.content.fields.start_time)
+        // console.log( proofData.data.data)
+        // console.log(currentTimestamp)
+        // console.log(start_time)
+        if(proofData.data.data.length == 0 ){
+            if (currentTimestamp >= start_time){
+                if (!wallet) return
+                await functionMint(proofData.data.data)
+            }else {
+                setComingState(true)
+                setOpenLoading(false)
+            }
         }else {
-            if (!wallet) return
-            try {
-                const transactionBlock = new TransactionBlock();
-                transactionBlock.setGasBudget(200000000)
-                const input_price = transactionBlock.splitCoins(
-                    transactionBlock.gas,
-                    [transactionBlock.pure(100000000)]
-                    //    00000
-                )
-                transactionBlock.moveCall({
-                    target: `${contractAddress}::robots_nft::whitelist_mint`,
-                    arguments: [
-                        transactionBlock.pure(objectId),
-                        input_price[0],
-                        transactionBlock.pure(
-                            proofData.data.data.map(data=> Array.from(new Uint8Array(Buffer.from(data.slice(2), 'hex')))))
-                    ],
-                })
-
-                const response = await wallet.signAndExecuteTransactionBlock({
-                    transactionBlock,
-                    options: {
-                        showObjectChanges: true,
-                    }
-                });
-
-                if(response.objectChanges[2]){
-                    setTimeout(
-                        async () => {
-                            const txn = await provider.getObject({
-                                // @ts-ignore
-                                id: response.objectChanges[2].objectId,
-                                options: {
-                                    showContent: true,
-                                    showDisplay: true,
-                                },
-                            });
-
-                            // @ts-ignore
-                            const img_url = txn.data.content.fields.image_url
-                            setOpenBoxLoading(true)
-                            setTimeout(
-                                async () => {
-                                    setBoxImg(img_url)
-                                    setSellState({state: true, type: "Mint", hash: response.digest})
-                                    setSellPop_up_boxState(true)
-                                }, 3500)
-                        }, 2000)
-                }else {
-                    setSellState({state:false,type:"Mint",hash: ""})
-                    setSellPop_up_boxState(true)
-                    await setOpenLoading(false)
-                }
-            } catch (error) {
-                setSellState({state:false,type:"Mint",hash: ""})
-                setSellPop_up_boxState(true)
-                await setOpenLoading(false)
-
-                console.log(error)
+            if (currentTimestamp >= start_time-duration){
+                if (!wallet) return
+                await functionMint(proofData.data.data)
+            }else {
+                setComingState(true)
+                setOpenLoading(false)
             }
         }
     }, [wallet])

@@ -47,6 +47,7 @@ const Mint = () =>{
     const objectId = "0xe804a4b52127095a42441d6fa19e67e60ef25614daff92017daeaa4c45cf13bb"
     const href = "https://merkle-backend-production.up.railway.app/api/get_proof"
     // const href = "http://localhost:3000/api/get_proof"
+    
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)

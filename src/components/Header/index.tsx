@@ -43,11 +43,11 @@ function ChevronUpIcon(props) {
 const Mint = () =>{
     // const { wallet,status } = ethos.useWallet()
     const wallet = useWallet();
-    const contractAddress = '0x76d0976df27d6bc804a0350dd08743e496b715b089ee9e89d267abc5fb130ac1'
-    const objectId = "0xe804a4b52127095a42441d6fa19e67e60ef25614daff92017daeaa4c45cf13bb"
+    const contractAddress = '0x1020314ce1d742efba8402aefdebd1d7744d709653c889f554a0e0ebe99c7894'
+    const objectId = "0x2f593c0bab4807c72f4c0f1d0fc1a77323e1d37cfb835674f4a5c39a2875f61c"
     const href = "https://merkle-backend-production.up.railway.app/api/get_proof"
     // const href = "http://localhost:3000/api/get_proof"
-    
+
     const [,setOpenLoading] =useAtom(OpenBoxState)
     const [,setOpenBoxLoading] =useAtom(OpenBoxLoadingState)
     const [,setSellState] =useAtom(SellState)
@@ -82,6 +82,7 @@ const Mint = () =>{
                     showObjectChanges: true,
                 }
             });
+            console.log(response)
 
             if (response.objectChanges[2]) {
                 setTimeout(
@@ -118,44 +119,45 @@ const Mint = () =>{
         }
     }
     const mint = useCallback(async () => {
-        setOpenLoading(true)
-        setOpenBoxLoading(false)
-        setBoxImg("")
-        const proofData =  await axios.post(href,{
-            leafAddress:wallet.address
-        })
-        const txn = await provider.getObject({
-            id: objectId,
-            options: {
-                showContent: true,
-                showDisplay: true,
-            },
-        });
-        let currentTimestamp = Date.now()
-        // @ts-ignore
-        const duration = Number(txn.data.content.fields.duration)
-        // @ts-ignore
-        const start_time = Number(txn.data.content.fields.start_time)
-        // console.log( proofData.data.data)
-        // console.log(currentTimestamp)
-        // console.log(start_time)
-        if(proofData.data.data.length == 0 ){
-            if (currentTimestamp >= start_time){
-                if (!wallet) return
-                await functionMint(proofData.data.data)
-            }else {
-                setComingState(true)
-                setOpenLoading(false)
-            }
-        }else {
-            if (currentTimestamp >= start_time-duration){
-                if (!wallet) return
-                await functionMint(proofData.data.data)
-            }else {
-                setComingState(true)
-                setOpenLoading(false)
-            }
-        }
+        setComingState(true)
+        // setOpenLoading(true)
+        // setOpenBoxLoading(false)
+        // setBoxImg("")
+        // const proofData =  await axios.post(href,{
+        //     leafAddress:wallet.address
+        // })
+        // const txn = await provider.getObject({
+        //     id: objectId,
+        //     options: {
+        //         showContent: true,
+        //         showDisplay: true,
+        //     },
+        // });
+        // let currentTimestamp = Date.now()
+        // // @ts-ignore
+        // const duration = Number(txn.data.content.fields.duration)
+        // // @ts-ignore
+        // const start_time = Number(txn.data.content.fields.start_time)
+        // // console.log( proofData.data.data)
+        // // console.log(currentTimestamp)
+        // // console.log(start_time)
+        // if(proofData.data.data.length == 0 ){
+        //     if (currentTimestamp >= start_time){
+        //         if (!wallet) return
+        //         await functionMint(proofData.data.data)
+        //     }else {
+        //         setComingState(true)
+        //         setOpenLoading(false)
+        //     }
+        // }else {
+        //     if (currentTimestamp >= start_time-duration){
+        //         if (!wallet) return
+        //         await functionMint(proofData.data.data)
+        //     }else {
+        //         setComingState(true)
+        //         setOpenLoading(false)
+        //     }
+        // }
     }, [wallet])
     return(
         <>
